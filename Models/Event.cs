@@ -9,6 +9,7 @@ namespace Scouty.Models
         public List<Team> Teams { get; set; }
         public string EventName { get; set; }
         public Location Location { get; set; }
+        public List<Match> Matches { get; set; }
     }
 
     public struct Location {
