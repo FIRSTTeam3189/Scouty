@@ -8,7 +8,7 @@ namespace Scouty
 		{
 			InitializeComponent();
 
-			MainPage = new ScoutyPage();
+			MainPage = new Views.GamePage();
 		}
 
 		protected override void OnStart()
