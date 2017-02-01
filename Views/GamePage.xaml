@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Scouty.Views.GamePage">
+             x:Class="Scouty.Views.GamePage" x:ClassName="GamePage">
+  
   <ScrollView>
     <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
       <StackLayout>
@@ -9,9 +10,9 @@
         <Button Text="Crossline" VerticalOptions="Center" HorizontalOptions="Center" FontSize="Large" TextColor="Black" />
       </StackLayout>
 
-
-      <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand">
-        <Label Text="High Shots" HorizontalOptions="Center" VerticalOptions="FillAndExpand" TextColor="Black" FontSize="Medium"/>
+      <Label Text="High Shots" HorizontalOptions="Center" VerticalOptions="FillAndExpand" TextColor="Black" FontSize="Medium"/>
+      
+      <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
         <Button Text="Make" FontSize="Large" TextColor="Black" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
                BackgroundColor="Green" x:Name="HighMake" />
         <Button Text="Miss" FontSize="Large" TextColor="Black" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
@@ -19,8 +20,9 @@
 
       </StackLayout>
 
-      <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand">
-        <Label Text="Low Shots" HorizontalOptions="Center" VerticalOptions="FillAndExpand" TextColor="Black" FontSize="Medium"/>
+      <Label Text="Low Shots" HorizontalOptions="Center" VerticalOptions="FillAndExpand" TextColor="Black" FontSize="Medium"/>
+      
+      <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
         <Button Text="Make" FontSize="Large" TextColor="Black" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
                BackgroundColor="Green" x:Name="LowMake" />
         <Button Text="Miss" FontSize="Large" TextColor="Black" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
@@ -28,8 +30,9 @@
 
       </StackLayout>
 
-      <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand">
-        <Label Text="Gear" HorizontalOptions="Center" VerticalOptions="FillAndExpand" TextColor="Black" FontSize="Medium"/>
+
+      <Label Text="Gear" HorizontalOptions="Center" VerticalOptions="FillAndExpand" TextColor="Black" FontSize="Medium"/>
+      <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
         <Button Text="Grab" FontSize="Large" TextColor="Black" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
                BackgroundColor="Green" x:Name="GrabMake" />
         <Button Text="Hang" FontSize="Large" TextColor="Black" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
@@ -37,8 +40,8 @@
 
       </StackLayout>
 
-      <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand">
-        <Label Text="Climb" HorizontalOptions="Center" VerticalOptions="FillAndExpand" TextColor="Black" FontSize="Medium"/>
+      <Label Text="Climb" HorizontalOptions="Center" VerticalOptions="FillAndExpand" TextColor="Black" FontSize="Medium"/>
+      <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
         <Button Text="HungAF" FontSize="Large" TextColor="Black" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
                BackgroundColor="Green" x:Name="HungAF" />
         <Button Text="Fail" FontSize="Large" TextColor="Black" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
