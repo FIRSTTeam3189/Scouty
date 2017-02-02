@@ -7,7 +7,7 @@
     <Label Text="Scouty" VerticalOptions="Center" HorizontalOptions="Center" FontSize="Large" TextColor="Blue" />
   </StackLayout>
 
-  <Grid>
+  <Grid Padding="0,0,0,0">
     <Grid.RowDefinitions>
       <RowDefinition Height="*" />
       <RowDefinition Height="*" />
@@ -16,10 +16,18 @@
       <ColumnDefinition Width="*" />
       <ColumnDefinition Width="*" />
     </Grid.ColumnDefinitions>
-    <Label Text="Event" Grid.Row="0" Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Center" />
-    <Label Text="Matches Right" Grid.Row="0" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center"/>
-    <Label Text="Search Left" Grid.Row="1" Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Center" />
-    <Label Text="Stats Right" Grid.Row="1" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center"/>
+
+    <Button Text="Event" Grid.Row="0" Grid.Column="0" VerticalOptions="FillAndExpand" 
+            HorizontalOptions="FillAndExpand" BackgroundColor="#1d8eff" />
+    
+    <Button Text="Matches" Grid.Row="0" Grid.Column="1" VerticalOptions="FillAndExpand" 
+            HorizontalOptions="FillAndExpand" BackgroundColor="#e0d9d5" />
+    
+    <Button Text="Search" Grid.Row="1" Grid.Column="0" VerticalOptions="FillAndExpand" 
+            HorizontalOptions="FillAndExpand" BackgroundColor="#e0d9d5"/>
+    
+    <Button Text="Stats" Grid.Row="1" Grid.Column="1" VerticalOptions="FillAndExpand" 
+            HorizontalOptions="FillAndExpand" BackgroundColor="#1d8eff" />
   </Grid>
 
 </ContentPage>
