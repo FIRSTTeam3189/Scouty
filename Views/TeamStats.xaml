@@ -1,11 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Scouty.Views.MatchesPage" Title="Matches">
-  <StackLayout>
-  <Label Text="Matches" VerticalOptions="Center" HorizontalOptions="Center" FontSize="Large" TextColor="Black" />
+             x:Class="Scouty.Views.TeamStats" Title="Stats">
+	<Label Text="Stats" VerticalOptions="Center" HorizontalOptions="Center" />
   <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-    <Label Text="What now."/>
+    <Label Text="Now what." />
   </StackLayout>
-  </StackLayout>
-  </ContentPage>
+</ContentPage>

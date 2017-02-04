@@ -8,7 +8,16 @@ namespace Scouty
 		{
 			InitializeComponent();
 
-			MainPage = new Views.TeamPicker();
+            MainPage = new TabbedPage
+            {
+                Children =
+                {
+                    new Views.EventsPage(),
+                    new Views.GamePage(),
+                    new Views.TeamStats()
+                    
+                }
+            };
 		}
 
 		protected override void OnStart()

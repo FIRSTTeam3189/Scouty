@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Scouty.Views.TeamPicker">
+             x:Class="Scouty.Views.TeamPicker" Title="Pick Teams">
   <StackLayout>
   <Label Text="Red Alliance" VerticalOptions="Center" HorizontalOptions="Center" FontSize="Large" TextColor="Black" />
   <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="FillAndExpand">
