@@ -6,7 +6,7 @@
   
 	<Label Text="Events" VerticalOptions="Center" HorizontalOptions="Center" />
   <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-    <Label Text="What now."/>
+    <Button Text="What now." VerticalOptions="Center" HorizontalOptions="FillAndExpand" Clicked="onClick"/>
   </StackLayout>
   
   
