@@ -5,13 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using Scouty.Models;
 
+using System.Collections.ObjectModel;
+
 using Xamarin.Forms;
 
 namespace Scouty.Views
 {
 	public partial class EventsPage : ContentPage
 	{
-        List<Event> events = new List<Event>();
+        
+        ObservableCollection<Team> Teams { get; set; }
+
+        ObservableCollection<Match> Matches { get; set; }
+
 
 		public EventsPage ()
 		{
