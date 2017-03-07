@@ -10,7 +10,7 @@ namespace Scouty
 		private static ActionPeriod t = ActionPeriod.Teleop;
 
 		[ForeignKey(typeof(Match))]
-		public int MatchId { get; set; }
+		public string MatchId { get; set; }
 		[ForeignKey(typeof(Team))]
 		public int TeamNumber { get; set; }
 

@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace Scouty
 {
@@ -11,17 +12,12 @@ namespace Scouty
 
 		protected override void OnAppearing()
 		{
-			Device.BeginInvokeOnMainThread(async () =>
-			{
-				var context = new BlueAllianceClient.BlueAllianceContext();
-				var ev = await context.GetEvent(2017, "cama");
-
-				var dbContext = DbContext.Instance;
-				await dbContext.InitalizeDb(DbContext.DefaultDatabase);
-
-				await dbContext.InsertOrUpdateEvent(ev);
-				System.Diagnostics.Debug.WriteLine("Yay");
-			});
+			Task
+				.Run(async () => await DbContext.Instance.InitalizeDb(DbContext.DefaultDatabase))
+				.ContinueWith(async t => {
+					await t;
+					Device.BeginInvokeOnMainThread(async () => await Navigation.PushModalAsync(new EventsPage()));
+				});
 			base.OnAppearing();
 		}
 	}

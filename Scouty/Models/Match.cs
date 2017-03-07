@@ -6,8 +6,8 @@ namespace Scouty
 {
 	public class Match
 	{
-		[PrimaryKey, AutoIncrement]
-		public int MatchId { get; set; }
+		[PrimaryKey]
+		public string MatchId { get; set; }
 		public string MatchInfo { get; set; }
 
 		[ManyToMany(typeof(Performance))]

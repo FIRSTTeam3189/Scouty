@@ -20,7 +20,13 @@ namespace BlueAllianceClient
 
 		public async Task<List<BAEvent>> GetEvents(int year) {
 			if (_cachedEvents == null)
+			{
 				_cachedEvents = await Connection.GetAsync<List<BAEvent>>($"/api/v2/events/{year}");
+				foreach (var e in _cachedEvents) {
+					e.Matches = new List<BAMatch>();
+					e.Teams = new List<BATeam>();
+				}
+			}
 
 			return _cachedEvents;
 		}

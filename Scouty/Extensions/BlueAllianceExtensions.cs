@@ -22,6 +22,7 @@ namespace Scouty
 		public static Match FromBAMatch(this BAMatch match, Event ev) {
 			return new Match
 			{
+				MatchId = match.Key,
 				MatchInfo = match.MatchInfo(),
 				Event = ev,
 				EventId = ev.EventId,
