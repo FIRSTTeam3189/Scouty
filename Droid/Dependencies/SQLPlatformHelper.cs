@@ -12,12 +12,20 @@ namespace Scouty.Droid
 {
 	public class SQLPlatformHelper : ISQLPlatformHelper
 	{
-		public ISQLitePlatform Platform => new SQLitePlatformAndroid();
+		public ISQLitePlatform Platform {
+			get {
+				if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.N)
+					return new SQLitePlatformAndroidN();
+				else
+					return new SQLitePlatformAndroid();
+			}
+		}
 
 		public bool DropDatabase(string dbPath)
 		{
 			var path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 			File.Delete(Path.Combine(path, dbPath));
+			return true;
 		}
 
 		public SQLiteConnectionString GetConnectionString(string dbPath)
