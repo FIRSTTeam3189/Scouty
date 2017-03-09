@@ -13,7 +13,6 @@ namespace Scouty
 
 		protected override void OnStart()
 		{
-			DependencyService.Get<ISQLPlatformHelper>().DropDatabase(DbContext.DefaultDatabase);
 			// Handle when your app starts
 		}
 

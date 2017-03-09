@@ -33,6 +33,9 @@
     <EmbeddedResource Include="Views\EventsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\MatchesPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -55,6 +58,9 @@
     <Compile Include="Dependencies\IFileHelper.cs" />
     <Compile Include="Dependencies\ISQLPlatformHelper.cs" />
     <Compile Include="Extensions\BlueAllianceExtensions.cs" />
+    <Compile Include="Views\MatchesPage.xaml.cs">
+      <DependentUpon>MatchesPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">

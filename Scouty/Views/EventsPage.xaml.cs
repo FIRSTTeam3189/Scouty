@@ -21,6 +21,7 @@ namespace Scouty
 
 			this.refreshEventsButton.Clicked += RefreshEventsButton_Clicked;
 			this.deleteEventsButton.Clicked += DeleteEventsButton_Clicked;
+			Events.ItemSelected += Events_ItemSelected;
 		}
 
 		protected override void OnAppearing()
@@ -71,12 +72,30 @@ namespace Scouty
 		{
 			deleteEventsButton.IsEnabled = false;
 
-			EventsList.Clear();
+			var confirm = await DisplayAlert("Are you sure?", "This will delete everything you cared about remembered in your life?", "Yes", "No");
 
-			// Delete all of the shit in the events table
-			await DbContext.Instance.Db.DeleteAllAsync<Event>();
+			if (confirm)
+			{
+				EventsList.Clear();
+
+				// Delete all of the shit in the events table
+				await DbContext.Instance.Db.DeleteAllAsync<Event>();
+				await DbContext.Instance.Db.DeleteAllAsync<Team>();
+				await DbContext.Instance.Db.DeleteAllAsync<Match>();
+				await DbContext.Instance.Db.DeleteAllAsync<Performance>();
+				await DbContext.Instance.Db.DeleteAllAsync<RobotEvent>();
+				await DbContext.Instance.Db.DeleteAllAsync<TeamEvent>();
+			}
 
 			deleteEventsButton.IsEnabled = true;
+		}
+
+		void Events_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+		{
+			if (e.SelectedItem != null)
+				Navigation.PushAsync(new MatchesPage((Event)e.SelectedItem));
+
+			Events.SelectedItem = null;
 		}
 	}
 
@@ -85,7 +104,7 @@ namespace Scouty
 			return new ObservableCollection<EventGroup>((from e in events
 														 group e by e.Week into g
 														 orderby g.Key
-			                                             select new EventGroup(g.Select(x => x), g.Key)));
+			                                             select new EventGroup(g.Select(x => x).OrderBy(x => x.Name), g.Key)));
 		}
 
 		public EventGroup(IEnumerable<Event> events, int week) {

@@ -12,7 +12,7 @@ namespace Scouty
 			{
 				EventId = e.Key,
 				Location = e.Location,
-				Week = e.Week ?? 0,
+				Week = e.Week != null ? (int)e.Week + 1: 0,
 				Name = e.ShortName,
 				Matches = new List<Match>(),
 				Teams = new List<Team>()
@@ -33,8 +33,8 @@ namespace Scouty
 
 		public static string MatchInfo(this BAMatch match) {
 			return match.Level == "qm"
-							? $"{match.Level}{match.MatchNumber}"
-							: $"{match.Level}{match.SetNumber}m{match.MatchNumber}";
+							? $"{match.Level} {match.MatchNumber}"
+							: $"{match.Level} {match.SetNumber} m {match.MatchNumber}";
 		}
 
 		public static Team FromBATeam(this BATeam team) {

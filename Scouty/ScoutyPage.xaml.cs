@@ -16,7 +16,7 @@ namespace Scouty
 				.Run(async () => await DbContext.Instance.InitalizeDb(DbContext.DefaultDatabase))
 				.ContinueWith(async t => {
 					await t;
-					Device.BeginInvokeOnMainThread(async () => await Navigation.PushModalAsync(new EventsPage()));
+				Device.BeginInvokeOnMainThread(async () => await Navigation.PushModalAsync(new NavigationPage(new EventsPage())));
 				});
 			base.OnAppearing();
 		}

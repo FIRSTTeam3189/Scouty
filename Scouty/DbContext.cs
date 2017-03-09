@@ -25,7 +25,7 @@ namespace Scouty
 			Db = new SQLiteAsyncConnection(
 				() => new SQLiteConnectionWithLock(DependencyService.Get<ISQLPlatformHelper>().Platform,
 												   DependencyService.Get<ISQLPlatformHelper>().GetConnectionString(dbPath)));
-			await Db.CreateTablesAsync(typeof(Event), typeof(Team), typeof(TeamEvent), typeof(Match), typeof(Performance), typeof(Performance));
+			await Db.CreateTablesAsync(typeof(Event), typeof(Team), typeof(TeamEvent), typeof(Match), typeof(Performance), typeof(RobotEvent));
 		}
 
 		public async Task<T> TryGetWithChildrenAsync<T>(object pk, bool recursive= false) where T : class
@@ -77,12 +77,6 @@ namespace Scouty
 
 			// Now add matches
 			await Db.InsertOrIgnoreAllAsync(newMatches.Select(x => x.DbMatch));
-
-			// Get all of the new ids of the matches now
-			var matches = await Db.Table<Match>().Where(x => x.EventId == ev.EventId).ToListAsync();
-			newMatches = (from m in matches
-						  join o in newMatches on m.MatchInfo equals o.DbMatch.MatchInfo
-						  select new { DbMatch = m, o.Match }).ToList();
 			
 			var newPerformances = new List<Performance>();
 
@@ -102,7 +96,7 @@ namespace Scouty
 				                         .Union(redTeams.Select(x => match.DbMatch.PerformanceFromMatch(x, AllianceColor.Red))));
 			}
 
-			await Db.InsertAllAsync(newPerformances);
+			await Db.InsertOrIgnoreAllAsync(newPerformances);
 
 		}
 	}
