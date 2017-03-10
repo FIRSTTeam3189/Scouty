@@ -1095,32 +1095,32 @@ namespace Scouty.Droid
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f0a004c
-			public const int abc_background_cache_hint_selector_material_dark = 2131361868;
+			// aapt resource value: 0x7f0a0051
+			public const int abc_background_cache_hint_selector_material_dark = 2131361873;
 			
-			// aapt resource value: 0x7f0a004d
-			public const int abc_background_cache_hint_selector_material_light = 2131361869;
+			// aapt resource value: 0x7f0a0052
+			public const int abc_background_cache_hint_selector_material_light = 2131361874;
 			
-			// aapt resource value: 0x7f0a004e
-			public const int abc_color_highlight_material = 2131361870;
+			// aapt resource value: 0x7f0a0053
+			public const int abc_color_highlight_material = 2131361875;
 			
 			// aapt resource value: 0x7f0a000e
 			public const int abc_input_method_navigation_guard = 2131361806;
 			
-			// aapt resource value: 0x7f0a004f
-			public const int abc_primary_text_disable_only_material_dark = 2131361871;
+			// aapt resource value: 0x7f0a0054
+			public const int abc_primary_text_disable_only_material_dark = 2131361876;
 			
-			// aapt resource value: 0x7f0a0050
-			public const int abc_primary_text_disable_only_material_light = 2131361872;
+			// aapt resource value: 0x7f0a0055
+			public const int abc_primary_text_disable_only_material_light = 2131361877;
 			
-			// aapt resource value: 0x7f0a0051
-			public const int abc_primary_text_material_dark = 2131361873;
+			// aapt resource value: 0x7f0a0056
+			public const int abc_primary_text_material_dark = 2131361878;
 			
-			// aapt resource value: 0x7f0a0052
-			public const int abc_primary_text_material_light = 2131361874;
+			// aapt resource value: 0x7f0a0057
+			public const int abc_primary_text_material_light = 2131361879;
 			
-			// aapt resource value: 0x7f0a0053
-			public const int abc_search_url_text = 2131361875;
+			// aapt resource value: 0x7f0a0058
+			public const int abc_search_url_text = 2131361880;
 			
 			// aapt resource value: 0x7f0a000f
 			public const int abc_search_url_text_normal = 2131361807;
@@ -1131,14 +1131,14 @@ namespace Scouty.Droid
 			// aapt resource value: 0x7f0a0011
 			public const int abc_search_url_text_selected = 2131361809;
 			
-			// aapt resource value: 0x7f0a0054
-			public const int abc_secondary_text_material_dark = 2131361876;
+			// aapt resource value: 0x7f0a0059
+			public const int abc_secondary_text_material_dark = 2131361881;
 			
-			// aapt resource value: 0x7f0a0055
-			public const int abc_secondary_text_material_light = 2131361877;
+			// aapt resource value: 0x7f0a005a
+			public const int abc_secondary_text_material_light = 2131361882;
 			
-			// aapt resource value: 0x7f0a004a
-			public const int accent = 2131361866;
+			// aapt resource value: 0x7f0a004b
+			public const int accent = 2131361867;
 			
 			// aapt resource value: 0x7f0a0012
 			public const int accent_material_dark = 2131361810;
@@ -1236,6 +1236,9 @@ namespace Scouty.Droid
 			// aapt resource value: 0x7f0a0023
 			public const int dim_foreground_material_light = 2131361827;
 			
+			// aapt resource value: 0x7f0a004f
+			public const int divider = 2131361871;
+			
 			// aapt resource value: 0x7f0a0024
 			public const int foreground_material_dark = 2131361828;
 			
@@ -1253,6 +1256,9 @@ namespace Scouty.Droid
 			
 			// aapt resource value: 0x7f0a0029
 			public const int hint_foreground_material_light = 2131361833;
+			
+			// aapt resource value: 0x7f0a004e
+			public const int icons = 2131361870;
 			
 			// aapt resource value: 0x7f0a002a
 			public const int material_blue_grey_800 = 2131361834;
@@ -1296,6 +1302,12 @@ namespace Scouty.Droid
 			// aapt resource value: 0x7f0a0049
 			public const int primaryDark = 2131361865;
 			
+			// aapt resource value: 0x7f0a004a
+			public const int primaryLight = 2131361866;
+			
+			// aapt resource value: 0x7f0a004c
+			public const int primaryText = 2131361868;
+			
 			// aapt resource value: 0x7f0a0036
 			public const int primary_dark_material_dark = 2131361846;
 			
@@ -1326,6 +1338,9 @@ namespace Scouty.Droid
 			// aapt resource value: 0x7f0a003f
 			public const int ripple_material_light = 2131361855;
 			
+			// aapt resource value: 0x7f0a004d
+			public const int secondaryText = 2131361869;
+			
 			// aapt resource value: 0x7f0a0040
 			public const int secondary_text_default_material_dark = 2131361856;
 			
@@ -1344,11 +1359,11 @@ namespace Scouty.Droid
 			// aapt resource value: 0x7f0a0045
 			public const int switch_thumb_disabled_material_light = 2131361861;
 			
-			// aapt resource value: 0x7f0a0056
-			public const int switch_thumb_material_dark = 2131361878;
+			// aapt resource value: 0x7f0a005b
+			public const int switch_thumb_material_dark = 2131361883;
 			
-			// aapt resource value: 0x7f0a0057
-			public const int switch_thumb_material_light = 2131361879;
+			// aapt resource value: 0x7f0a005c
+			public const int switch_thumb_material_light = 2131361884;
 			
 			// aapt resource value: 0x7f0a0046
 			public const int switch_thumb_normal_material_dark = 2131361862;
@@ -1356,8 +1371,8 @@ namespace Scouty.Droid
 			// aapt resource value: 0x7f0a0047
 			public const int switch_thumb_normal_material_light = 2131361863;
 			
-			// aapt resource value: 0x7f0a004b
-			public const int window_background = 2131361867;
+			// aapt resource value: 0x7f0a0050
+			public const int window_background = 2131361872;
 			
 			static Color()
 			{
