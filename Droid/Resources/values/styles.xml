@@ -2,6 +2,12 @@
 <resources>
 	<style name="MyTheme" parent="MyTheme.Base">
 	</style>
+	<style name="MyButton" parent="Widget.AppCompat.Button">
+        <item name="colorButtonNormal">@color/primaryLight</item>
+        <item name="colorControlHighlight">@color/accent</item>
+        <item name="android:textColor">@color/primaryText</item>
+	</style>
+	
 	<!-- Base theme applied no matter what API -->
 	<style name="MyTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
 		<item name="colorPrimary">@color/primary</item>
@@ -11,6 +17,7 @@
 		<item name="divider">@color/divider</item>
     	<item name="windowActionModeOverlay">true</item>
 		<item name="android:datePickerDialogTheme">@style/AppCompatDialogStyle</item>
+		<item name="buttonStyle">@style/MyButton</item>
 	</style>
 	<style name="AppCompatDialogStyle" parent="Theme.AppCompat.Light.Dialog">
 		<item name="colorAccent">@color/accent</item>

@@ -3116,8 +3116,8 @@ namespace Scouty.Droid
 			// aapt resource value: 0x7f09001c
 			public const int Animation_Design_BottomSheetDialog = 2131296284;
 			
-			// aapt resource value: 0x7f090174
-			public const int AppCompatDialogStyle = 2131296628;
+			// aapt resource value: 0x7f090175
+			public const int AppCompatDialogStyle = 2131296629;
 			
 			// aapt resource value: 0x7f0900be
 			public const int Base_AlertDialog_AppCompat = 2131296446;
@@ -3560,11 +3560,14 @@ namespace Scouty.Droid
 			// aapt resource value: 0x7f09001a
 			public const int CardView_Light = 2131296282;
 			
+			// aapt resource value: 0x7f090173
+			public const int MyButton = 2131296627;
+			
 			// aapt resource value: 0x7f090172
 			public const int MyTheme = 2131296626;
 			
-			// aapt resource value: 0x7f090173
-			public const int MyTheme_Base = 2131296627;
+			// aapt resource value: 0x7f090174
+			public const int MyTheme_Base = 2131296628;
 			
 			// aapt resource value: 0x7f09004b
 			public const int Platform_AppCompat = 2131296331;

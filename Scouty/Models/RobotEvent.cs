@@ -25,12 +25,15 @@ namespace Scouty
 		MissHigh,
 		MissLow,
 		GearCollected,
+		GearPickedUp,
 		GearDropped,
 		GearHung,
 		ClimbAttempted,
 		ClimbSuccessful,
 		RobotDisabled,
-		SpilledBalls
+		SpilledBalls,
+		Foul,
+		TechnicalFoul
 	}
 
 	public enum ActionPeriod { 

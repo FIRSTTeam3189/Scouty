@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CarouselPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Scouty.EventsPage" xmlns:constants="clr-namespace:Scouty;assembly=Scouty">
 	<ContentPage>
-		<ListView x:Name="Events" IsGroupingEnabled="true" GroupDisplayBinding="{Binding Week}" GroupShortNameBinding="{Binding WeekShort}">
+		<ListView SeparatorVisibility="None" x:Name="Events" IsGroupingEnabled="true" GroupDisplayBinding="{Binding Week}" GroupShortNameBinding="{Binding WeekShort}">
 			<ListView.ItemTemplate>
 				<DataTemplate>
 					<TextCell Text="{Binding Name}" Detail="{Binding Location}"/>
