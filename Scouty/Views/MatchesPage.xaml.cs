@@ -20,6 +20,7 @@ namespace Scouty
 			MatchEvent = ev;
 			MatchList = new ObservableCollection<MatchGroup>();
 			Matches.ItemsSource = MatchList;
+			Matches.ItemSelected += Matches_ItemSelected;
 		}
 
 		protected override void OnAppearing()
@@ -49,6 +50,17 @@ namespace Scouty
 					});
 				});
 			base.OnAppearing();
+		}
+
+		async void Matches_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+		{
+			if (e.SelectedItem != null) {
+				var match = e.SelectedItem as Match;
+
+				Matches.SelectedItem = null;
+
+				await Navigation.PushAsync(new TeamSelectPage(match));
+			}
 		}
 	}
 
@@ -81,7 +93,7 @@ namespace Scouty
 			return int.Parse(split[split.Length - 1]);
 		}
 
-		public static ObservableCollection<MatchGroup> FromMatches(IEnumerable<Match> matches) {
+		public static IEnumerable<MatchGroup> FromMatches(IEnumerable<Match> matches) {
 			var ma =(from m in matches
 					group m by GetLevelNum(m.MatchInfo) into g
 					orderby g.Key
