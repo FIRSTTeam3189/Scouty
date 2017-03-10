@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Scouty.Views.TeamSelectPage">
+	<ContentPage.Content>
+		<ListView x:Name="Teams" IsGroupingEnabled="true" GroupDisplayBinding="{Binding AllianceColor}">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<TextCell Text="{Binding TeamNumber}" Detail="{Binding Name}" />
+				</DataTemplate>
+			</ListView.ItemTemplate>
+			<ListView.Header>
+				<StackLayout Orientation="Horizontal" Margin="0, 5, 0, 5" BackgroundColor="{Binding HeaderColor}">
+					<Label Text="{Binding Name}" Margin="8, 0, 0, 0" />
+				</StackLayout>
+			</ListView.Header>
+		</ListView>
+	</ContentPage.Content>
+</ContentPage>

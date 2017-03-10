@@ -36,6 +36,9 @@
     <EmbeddedResource Include="Views\MatchesPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\TeamSelectPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -60,6 +63,9 @@
     <Compile Include="Extensions\BlueAllianceExtensions.cs" />
     <Compile Include="Views\MatchesPage.xaml.cs">
       <DependentUpon>MatchesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TeamSelectPage.xaml.cs">
+      <DependentUpon>TeamSelectPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
