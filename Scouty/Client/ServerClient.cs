@@ -78,6 +78,15 @@ namespace Scouty.Client
 			return request;
 		}
 
+		public async Task<TOut> PostAsync<TIn, TOut>(string api, TIn obj) where TIn : class
+																	where TOut : class
+		{
+			var request = GeneratePostRequest(api, obj);
+			var resp = await _client.SendAsync(request);
+
+			return await GetObjectFromResponse<TOut>(resp);
+		}
+
 		/// <summary>
 		/// Gets the object from response.
 		/// </summary>
@@ -114,6 +123,44 @@ namespace Scouty.Client
 											   $"\n {response.ToString()}");
 			}
 		}
+
+		/// <summary>
+		/// Gets the object from response.
+		/// </summary>
+		/// <returns>The object from response.</returns>
+		/// <param name="response">Response.</param>
+		/// <typeparam name="T">The 1st type parameter.</typeparam>
+		private static async Task<T> GetObjectFromResponse<T>(HttpResponseMessage response)
+		{
+			if (response.IsSuccessStatusCode)
+			{
+				Stream stream;
+				try
+				{
+					stream = await response.Content.ReadAsStreamAsync();
+				}
+				catch (Exception e)
+				{
+					throw new HttpRequestException("Failed to read response stream", e);
+				}
+
+				try
+				{
+					return stream.FromStream<T>();
+				}
+				catch (Exception e)
+				{
+					throw new HttpRequestException("Failed to parse object", e);
+				}
+			}
+			else
+			{
+				throw new HttpRequestException($"{response.StatusCode} " +
+											   $": {response.ReasonPhrase} " +
+											   $"\n {response.ToString()}");
+			}
+		}
+
 	}
 
 	class CustomRegisterRequest { 

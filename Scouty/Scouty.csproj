@@ -80,6 +80,7 @@
       <DependentUpon>RegisterPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Client\ServerClient.cs" />
+    <Compile Include="Client\Models\RefreshEventRequest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">
@@ -116,6 +117,7 @@
     <Folder Include="Dependencies\" />
     <Folder Include="Extensions\" />
     <Folder Include="Client\" />
+    <Folder Include="Client\Models\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BlueAllianceClient\BlueAllianceClient.csproj">

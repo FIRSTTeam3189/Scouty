@@ -5,6 +5,8 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using BlueAllianceClient;
+using Scouty.Client.Models;
+using Scouty.Client;
 
 namespace Scouty
 {
@@ -21,6 +23,7 @@ namespace Scouty
 
 			this.refreshEventsButton.Clicked += RefreshEventsButton_Clicked;
 			this.deleteEventsButton.Clicked += DeleteEventsButton_Clicked;
+			this.TestServer.Clicked += TestServer_Clicked;
 			Events.ItemSelected += Events_ItemSelected;
 		}
 
@@ -96,6 +99,21 @@ namespace Scouty
 				Navigation.PushAsync(new MatchesPage((Event)e.SelectedItem));
 
 			Events.SelectedItem = null;
+		}
+
+		async void TestServer_Clicked(object sender, EventArgs e)
+		{
+			var evRequest = new RefreshEventRequest { 
+				Year = 2017
+			};
+
+			try
+			{
+				var ev = ServerClient.Instance.PostAsync<RefreshEventRequest, List<Scouty.Event>>("api/events/Refresh", evRequest);
+			}
+			catch (Exception ex) {
+				System.Diagnostics.Debug.WriteLine($"{ex.Message} \n{ex}");
+			}
 		}
 	}
 
