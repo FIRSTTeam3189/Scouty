@@ -10,9 +10,10 @@ namespace Scouty
 		[PrimaryKey]
 		public string MatchId { get; set; }
 		public string MatchInfo { get; set; }
+		public string TimeString { get; set; }
 
 		[Ignore]
-		public string Name => MatchInfo.ToUpper();
+		public string Name => TimeString != null ? $"{MatchInfo.ToUpper()} - {TimeString}" : $"{MatchInfo.ToUpper()}";
 		[Ignore]
 		public string TeamDetail => Teams.Aggregate("", (x, y) => $"{x} {y.TeamNumber}");
 

@@ -24,6 +24,7 @@ namespace Scouty
 			{
 				MatchId = match.Key,
 				MatchInfo = match.MatchInfo(),
+				TimeString = match.TimeString,
 				Event = ev,
 				EventId = ev.EventId,
 				RobotEvents = new List<RobotEvent>(),

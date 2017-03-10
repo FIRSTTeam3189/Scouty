@@ -10,6 +10,7 @@ namespace BlueAllianceClient
 		public string Level { get; set; }
 		public int? SetNumber { get; set; }
 		public int MatchNumber { get; set; }
+		public string TimeString { get; set; }
 
 		public List<BATeam> Red { get; set; }
 		public List<BATeam> Blue { get; set; }

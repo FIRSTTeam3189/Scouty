@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using System.Threading.Tasks;
+using SQLiteNetExtensionsAsync.Extensions;
 using BlueAllianceClient;
 
 namespace Scouty
@@ -18,26 +19,36 @@ namespace Scouty
 			InitializeComponent();
 			MatchEvent = ev;
 			MatchList = new ObservableCollection<MatchGroup>();
+			Matches.ItemsSource = MatchList;
+		}
 
-			Task.Run(async () => {
-				var db = DbContext.Instance.Db;
-				if (await db.Table<Match>().CountAsync() == 0) {
-					// Pull the latest from BlueAlliance
-					var trueEvent = await _blueContext.GetEvent(2017, ev.EventId.Substring(4));
+		protected override void OnAppearing()
+		{
+			if (MatchList.Count == 0)
+				Task.Run(async () =>
+				{
+					var ev = MatchEvent;
+					var db = DbContext.Instance.Db;
+					if (await db.Table<Match>().Where(x => x.EventId == ev.EventId).CountAsync() == 0)
+					{
+						// Pull the latest from BlueAlliance
+						var trueEvent = await _blueContext.GetEvent(2017, ev.EventId.Substring(4));
 
-					await DbContext.Instance.InsertOrUpdateEvent(trueEvent);
-				}
+						await DbContext.Instance.InsertOrUpdateEvent(trueEvent);
+					}
 
 
-				// Now get the matches from that event
-				var m = await db.Table<Match>().Where(x => x.EventId == ev.EventId).ToListAsync();
+					// Now get the matches from that event
+					var m = (await db.GetAllWithChildrenAsync<Match>(x => x.EventId == ev.EventId)).ToList();
 
-				var matchGroups = MatchGroup.FromMatches(m);
-				Device.BeginInvokeOnMainThread(() => {
-					foreach (var g in matchGroups)
-						MatchList.Add(g);
+					var matchGroups = MatchGroup.FromMatches(m);
+					Device.BeginInvokeOnMainThread(() =>
+					{
+						foreach (var g in matchGroups)
+							MatchList.Add(g);
+					});
 				});
-			});
+			base.OnAppearing();
 		}
 	}
 

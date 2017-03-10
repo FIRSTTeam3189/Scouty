@@ -56,19 +56,14 @@ namespace Scouty
 		public async Task InsertOrUpdateEvent(BAEvent e)
 		{
 			// Put new teams in Database
-			await Db.InsertOrIgnoreAllAsync(e.Teams);
+			var eventTeams = e.Teams.Select(x => x.FromBATeam()).ToList();
 
-			// Figure out if event already exists in Database
-			var ev = await TryGetWithChildrenAsync<Event>(e.Key);
-			if (ev == null)
-			{
-				// Add BAEvent to Database
-				ev = e.FromBAEvent();
-				await Db.InsertWithChildrenAsync(ev);
-				ev = await Db.GetWithChildrenAsync<Event>(ev.EventId);
-			}
+			await Db.InsertOrIgnoreAllAsync(eventTeams);
 
-			await Db.UpdateWithChildrenAsync(ev);
+			var ev = e.FromBAEvent();
+			ev.Teams.AddRange(eventTeams);
+
+			await Db.InsertOrReplaceWithChildrenAsync(ev);
 
 			// Find what the differences are
 			var newMatches = e.Matches
@@ -76,7 +71,8 @@ namespace Scouty
 							  .ToList();
 
 			// Now add matches
-			await Db.InsertOrIgnoreAllAsync(newMatches.Select(x => x.DbMatch));
+			var eventMatches = e.Matches.Select(x => x.FromBAMatch(ev)).ToList();
+			await Db.InsertOrIgnoreAllAsync(eventMatches);
 			
 			var newPerformances = new List<Performance>();
 
@@ -97,7 +93,6 @@ namespace Scouty
 			}
 
 			await Db.InsertOrIgnoreAllAsync(newPerformances);
-
 		}
 	}
 }

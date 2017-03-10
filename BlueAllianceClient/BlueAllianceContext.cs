@@ -46,11 +46,25 @@ namespace BlueAllianceClient
 				var blueTeam = x["alliances"]["blue"]["teams"]
 					.Select(t => teams
 							.First(tm => tm.Key.Equals((string)t, StringComparison.CurrentCultureIgnoreCase)));
+				int timestamp;
+				try
+				{
+					timestamp = int.Parse((string)x["time"]);
+				}
+				catch (Exception) {
+					// Ignore the exception and use the time now as the timestamp. It either didnt exist or was formatted incorrectly
+					timestamp = (int)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
+				}
+
+				// Convert to local time string
+				var localTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(timestamp).ToLocalTime();
 				
-				return new BAMatch {
+				return new BAMatch
+				{
 					Blue = blueTeam.ToList(),
 					Red = redTeam.ToList(),
 					Key = (string)x["key"],
+					TimeString = localTime.ToString("t"),
 					Event = ev,
 					Level = (string)x["comp_level"],
 					MatchNumber = (int)x["match_number"],
