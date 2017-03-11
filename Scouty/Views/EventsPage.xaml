@@ -12,9 +12,9 @@
 	<ContentPage>
 		<StackLayout VerticalOptions="FillAndExpand">
 			<BoxView VerticalOptions="StartAndExpand"/>
-			<Button Text="Refresh Events" x:Name="refreshEventsButton" FontSize="20" BorderColor="Green" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center"/>
-			<Button Text="Clear Database" x:Name="deleteEventsButton" TextColor="Red" FontSize="20" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center"/>
-			<Button Text="Test Server" x:Name="TestServer" FontSize="20" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center"/>
+			<Button Margin="30,0,30,5" Text="Refresh Events" x:Name="refreshEventsButton" FontSize="20" BorderColor="Green" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center"/>
+			<Button Margin="30,0,30,5" Text="Clear Database" x:Name="deleteEventsButton" TextColor="Red" FontSize="20" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center"/>
+			<Button Margin="30,0,30,0" Text="Test Server" x:Name="TestServer" FontSize="20" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center"/>
 			<BoxView VerticalOptions="EndAndExpand"/>
 		</StackLayout>
 	</ContentPage>

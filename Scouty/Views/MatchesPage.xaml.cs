@@ -9,7 +9,7 @@ using BlueAllianceClient;
 
 namespace Scouty
 {
-	public partial class MatchesPage : ContentPage
+	public partial class MatchesPage : CarouselPage
 	{
 		ObservableCollection<MatchGroup> MatchList { get; set; }
 		BlueAllianceContext _blueContext = new BlueAllianceContext();
@@ -22,6 +22,8 @@ namespace Scouty
 			Matches.ItemsSource = MatchList;
 			Matches.ItemSelected += Matches_ItemSelected;
 			Title = ev.Name;
+			CurrentPage = Children[1];
+			ViewGradedMatches.Clicked += async (sender, e) => await Navigation.PushAsync(new MyGradesPage(MatchEvent));
 		}
 
 		protected override void OnAppearing()
@@ -42,6 +44,7 @@ namespace Scouty
 
 					// Now get the matches from that event
 					var m = (db.GetAllWithChildren<Match>(x => x.EventId == ev.EventId)).ToList();
+					ev.Matches = m ?? new List<Match>();
 
 					var matchGroups = MatchGroup.FromMatches(m);
 					Device.BeginInvokeOnMainThread(() =>
