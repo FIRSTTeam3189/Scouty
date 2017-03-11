@@ -21,6 +21,7 @@ namespace Scouty
 			MatchList = new ObservableCollection<MatchGroup>();
 			Matches.ItemsSource = MatchList;
 			Matches.ItemSelected += Matches_ItemSelected;
+			Title = ev.Name;
 		}
 
 		protected override void OnAppearing()

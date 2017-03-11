@@ -93,6 +93,7 @@
     <Compile Include="Views\ReviewPage.xaml.cs">
       <DependentUpon>ReviewPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\ModelExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
+using Scouty.Views;
 
 namespace Scouty
 {
@@ -14,15 +15,23 @@ namespace Scouty
 		private List<EventCounter>  Counters { get; }
 		private ActionPeriod CurrentPeriod { get; set; }
 		private bool HasGear { get; set; }
+		private int EventNum { get; set; }
 
 		public GradePage(Match match, Team team)
 		{
 			InitializeComponent();
-			Title = match.Name + " - " + team.TeamNumber;
+			Title = match.MatchInfo.ToUpper() + " - " + team.TeamNumber;
 			GradedTeam = team;
 			GradedMatch = match;
 			Events = new ObservableCollection<RobotEvent>();
 			Counters = new List<EventCounter>();
+
+			ToolbarItems.Add(new ToolbarItem("Done", null, async () => {
+				if (Events.Count == 0)
+					Events.Add(GenRobotEvent(ActionType.RobotDisabled, ActionPeriod.Teleop));
+				
+				await Navigation.PushAsync(new ReviewPage(Events));
+			}));
 
 			// Add counters
 			Counters.Add(new EventCounter(HighGoalShots, "High Goal: {0}/{1}", x => {
@@ -52,6 +61,7 @@ namespace Scouty
 				foreach (var counter in Counters)
 					counter.Update(Events);
 			};
+
 			//adds when clicked ;)
 			High1Made.Clicked += (sender, e) => Insert(ActionType.MakeHigh, CurrentPeriod);
 			High2Made.Clicked += (sender, e) => Insert(ActionType.MakeHigh, CurrentPeriod, 2);
@@ -77,6 +87,7 @@ namespace Scouty
 				if (climbSuccess != null)
 				{
 					Events.Remove(climbSuccess);
+					HangAttemptSuccess.Text = "Climb Success";
 				}
 				else if (Events.Any(x => x.Action == ActionType.ClimbAttempted))
 				{
@@ -85,6 +96,7 @@ namespace Scouty
 				else {
 					AddClimbEvent(ActionType.ClimbAttempted);
 				}
+
 			};
 			GearPickupHang.Clicked += (sender, e) => {
 				if (HasGear)
@@ -104,11 +116,13 @@ namespace Scouty
 				{
 					SwitchPeriod.BorderColor = Color.Lime;
 					CurrentPeriod = ActionPeriod.Auto;
+					SwitchPeriod.Text = "Auto";
 				}
 				else
 				{
 					SwitchPeriod.BorderColor = Color.Teal;
 					CurrentPeriod = ActionPeriod.Teleop;
+					SwitchPeriod.Text = "Teleop";
 				}
 			};
 		}
@@ -141,7 +155,7 @@ namespace Scouty
 			if (Events.Any(x => x.Action == ActionType.ClimbSuccessful))
 				return;
 
-			if (action == ActionType.ClimbAttempted && !Events.Any(x => x.Action == ActionType.ClimbAttempted))
+			if (action == ActionType.ClimbSuccessful && Events.Any(x => x.Action == ActionType.ClimbAttempted))
 			{
 				Insert(ActionType.ClimbSuccessful, ActionPeriod.Teleop);
 				HangAttemptSuccess.Text = "Revoke Climb";
@@ -155,7 +169,7 @@ namespace Scouty
 
 		void AddGearEvent(ActionType action, ActionPeriod period) {
 			// Dont care about non gear events
-			if (action != ActionType.GearCollected || action != ActionType.GearDropped || action != ActionType.GearPickedUp || action != ActionType.GearHung)
+			if (action != ActionType.GearCollected && action != ActionType.GearDropped && action != ActionType.GearPickedUp && action != ActionType.GearHung)
 				return;
 
 			Insert(action, period);
@@ -177,7 +191,8 @@ namespace Scouty
 				Action = action,
 				MatchId = GradedMatch.MatchId,
 				Period = period,
-				TeamId = GradedTeam.TeamNumber
+				TeamId = GradedTeam.TeamNumber,
+				Time = EventNum++
 			};
 		}
 	}

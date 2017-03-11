@@ -20,6 +20,8 @@ namespace Scouty
 
 			Teams.ItemsSource = Alliances;
 			Teams.ItemSelected += Teams_ItemSelected;
+
+			Title = match.MatchInfo.ToUpper();
 		}
 
 		void Teams_ItemSelected(object sender, SelectedItemChangedEventArgs e)

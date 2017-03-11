@@ -25,6 +25,8 @@ namespace Scouty
 			this.deleteEventsButton.Clicked += DeleteEventsButton_Clicked;
 			this.TestServer.Clicked += TestServer_Clicked;
 			Events.ItemSelected += Events_ItemSelected;
+
+			Title = "Events";
 		}
 
 		protected override void OnAppearing()
