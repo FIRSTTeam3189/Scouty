@@ -87,6 +87,22 @@ namespace Scouty.Client
 			return await GetObjectFromResponse<TOut>(resp);
 		}
 
+		public async Task<bool> PostAsync<TIn>(string api, TIn obj) where TIn : class {
+			var request = GeneratePostRequest(api, obj);
+			try
+			{
+				var resp = await _client.SendAsync(request);
+				if (!resp.IsSuccessStatusCode)
+					System.Diagnostics.Debug.WriteLine($"Code: {resp.StatusCode} Reason: {resp.ReasonPhrase}");
+
+				return resp.IsSuccessStatusCode;
+			}
+			catch (HttpRequestException e) {
+				System.Diagnostics.Debug.WriteLine($"Error: {e.Message} \n\n{e.ToString()}");
+				return false;
+			}
+		}
+
 		/// <summary>
 		/// Gets the object from response.
 		/// </summary>

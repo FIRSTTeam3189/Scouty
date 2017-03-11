@@ -12,6 +12,7 @@ namespace Scouty
 		public Team GradedTeam { get; }
 		public Match GradedMatch { get; }
 		public ObservableCollection<RobotEvent> Events { get; }
+		private bool HasAppeared { get; set; }
 		private List<EventCounter>  Counters { get; }
 		private ActionPeriod CurrentPeriod { get; set; }
 		private bool HasGear { get; set; }

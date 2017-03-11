@@ -6,6 +6,7 @@ using Xamarin.Forms;
 using System.Threading.Tasks;
 using SQLiteNetExtensions.Extensions;
 using BlueAllianceClient;
+using Scouty.Client;
 
 namespace Scouty
 {
@@ -24,6 +25,7 @@ namespace Scouty
 			Title = ev.Name;
 			CurrentPage = Children[1];
 			ViewGradedMatches.Clicked += async (sender, e) => await Navigation.PushAsync(new MyGradesPage(MatchEvent));
+			SendData.Clicked += SendData_Clicked;
 		}
 
 		protected override void OnAppearing()
@@ -65,6 +67,43 @@ namespace Scouty
 
 				await Navigation.PushAsync(new TeamSelectPage(match));
 			}
+		}
+
+		async void SendData_Clicked(object sender, EventArgs e)
+		{
+			SendData.IsEnabled = false;
+			try
+			{
+				// Get all of the Robot events from the server
+				var db = DbContext.Instance.Db;
+				List<string> evMatches;
+				if (MatchEvent.Matches != null && MatchEvent.Matches.Count != 0)
+					evMatches = MatchEvent.Matches.Select(x => x.MatchId).ToList();
+				else
+					evMatches = db.Table<Match>().Where(x => x.EventId == MatchEvent.EventId).Select(x => x.MatchId).ToList();
+				var allEvents = db.Table<RobotEvent>().ToList().Where(x => evMatches.Contains(x.MatchId));
+
+				var success = await ServerClient.Instance.PostAsync("api/RobotEvent/Post", allEvents);
+
+				if (success)
+				{
+					await DisplayAlert("Success", "All events uploaded to the server. Deleting local robot events.", "OK");
+					db.DeleteAll(allEvents);
+				}
+				else {
+					await DisplayAlert("Failure", "Events not posted, try again later", "OK");
+				}
+
+				SendData.IsEnabled = true;
+			}
+			catch (Exception ex) {
+				System.Diagnostics.Debug.WriteLine(ex.ToString());
+			}
+
+			await DisplayAlert("Failure", "Events not posted, try again later", "OK");
+			SendData.IsEnabled = true;
+
+
 		}
 	}
 
