@@ -19,6 +19,17 @@ namespace Scouty
 			Alliances = new ObservableCollection<Alliance>();
 
 			Teams.ItemsSource = Alliances;
+			Teams.ItemSelected += Teams_ItemSelected;
+		}
+
+		void Teams_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+		{
+			var item = e.SelectedItem;
+			if (item != null) {
+				var team = item as Team;
+
+				Navigation.PushAsync(new GradePage(SelectedMatch, team));
+			}
 		}
 
 		protected override void OnAppearing()
