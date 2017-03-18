@@ -4,10 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BlueAllianceClient;
 using SQLite.Net;
-using SQLite.Net.Async;
-using SQLiteNetExtensionsAsync;
 using SQLiteNetExtensions.Extensions;
-using SQLiteNetExtensionsAsync.Extensions;
 using Xamarin.Forms;
 
 namespace Scouty

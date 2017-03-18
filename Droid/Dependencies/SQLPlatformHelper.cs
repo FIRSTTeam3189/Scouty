@@ -14,11 +14,7 @@ namespace Scouty.Droid
 	{
 		public ISQLitePlatform Platform {
 			get {
-				if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.N)
-					return new SQLitePlatformAndroidN();
-				else
-					return new SQLitePlatformAndroid();
-				
+				return new SQLitePlatformAndroid();
 			}
 		}
 
