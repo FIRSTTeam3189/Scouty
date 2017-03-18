@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="0.1.2" package="frc.team3189.scouty" android:installLocation="auto" android:versionCode="2">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="0.1.2b" package="frc.team3189.scouty" android:installLocation="auto" android:versionCode="3">
 	<uses-sdk android:minSdkVersion="19" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
