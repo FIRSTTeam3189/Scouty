@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using System.Threading.Tasks;
-using SQLiteNetExtensionsAsync.Extensions;
+using SQLiteNetExtensions.Extensions;
 using BlueAllianceClient;
+using Scouty.Client;
 
 namespace Scouty
 {
-	public partial class MatchesPage : ContentPage
+	public partial class MatchesPage : CarouselPage
 	{
 		ObservableCollection<MatchGroup> MatchList { get; set; }
 		BlueAllianceContext _blueContext = new BlueAllianceContext();
@@ -20,6 +21,11 @@ namespace Scouty
 			MatchEvent = ev;
 			MatchList = new ObservableCollection<MatchGroup>();
 			Matches.ItemsSource = MatchList;
+			Matches.ItemSelected += Matches_ItemSelected;
+			Title = ev.Name;
+			CurrentPage = Children[1];
+			ViewGradedMatches.Clicked += async (sender, e) => await Navigation.PushAsync(new MyGradesPage(MatchEvent));
+			SendData.Clicked += SendData_Clicked;
 		}
 
 		protected override void OnAppearing()
@@ -29,17 +35,18 @@ namespace Scouty
 				{
 					var ev = MatchEvent;
 					var db = DbContext.Instance.Db;
-					if (await db.Table<Match>().Where(x => x.EventId == ev.EventId).CountAsync() == 0)
+					if (db.Table<Match>().Where(x => x.EventId == ev.EventId).Count() == 0)
 					{
 						// Pull the latest from BlueAlliance
 						var trueEvent = await _blueContext.GetEvent(2017, ev.EventId.Substring(4));
 
-						await DbContext.Instance.InsertOrUpdateEvent(trueEvent);
+						DbContext.Instance.InsertOrUpdateEvent(trueEvent);
 					}
 
 
 					// Now get the matches from that event
-					var m = (await db.GetAllWithChildrenAsync<Match>(x => x.EventId == ev.EventId)).ToList();
+					var m = (db.GetAllWithChildren<Match>(x => x.EventId == ev.EventId)).ToList();
+					ev.Matches = m ?? new List<Match>();
 
 					var matchGroups = MatchGroup.FromMatches(m);
 					Device.BeginInvokeOnMainThread(() =>
@@ -49,6 +56,54 @@ namespace Scouty
 					});
 				});
 			base.OnAppearing();
+		}
+
+		async void Matches_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+		{
+			if (e.SelectedItem != null) {
+				var match = e.SelectedItem as Match;
+
+				Matches.SelectedItem = null;
+
+				await Navigation.PushAsync(new TeamSelectPage(match));
+			}
+		}
+
+		async void SendData_Clicked(object sender, EventArgs e)
+		{
+			SendData.IsEnabled = false;
+			try
+			{
+				// Get all of the Robot events from the server
+				var db = DbContext.Instance.Db;
+				List<string> evMatches;
+				if (MatchEvent.Matches != null && MatchEvent.Matches.Count != 0)
+					evMatches = MatchEvent.Matches.Select(x => x.MatchId).ToList();
+				else
+					evMatches = db.Table<Match>().Where(x => x.EventId == MatchEvent.EventId).Select(x => x.MatchId).ToList();
+				var allEvents = db.Table<RobotEvent>().ToList().Where(x => evMatches.Contains(x.MatchId));
+
+				var success = await ServerClient.Instance.PostAsync("api/RobotEvent/Post", allEvents);
+
+				if (success)
+				{
+					await DisplayAlert("Success", "All events uploaded to the server. Deleting local robot events.", "OK");
+					db.DeleteAll(allEvents);
+				}
+				else {
+					await DisplayAlert("Failure", "Events not posted, try again later", "OK");
+				}
+
+				SendData.IsEnabled = true;
+			}
+			catch (Exception ex) {
+				System.Diagnostics.Debug.WriteLine(ex.ToString());
+			}
+
+			await DisplayAlert("Failure", "Events not posted, try again later", "OK");
+			SendData.IsEnabled = true;
+
+
 		}
 	}
 
@@ -81,7 +136,7 @@ namespace Scouty
 			return int.Parse(split[split.Length - 1]);
 		}
 
-		public static ObservableCollection<MatchGroup> FromMatches(IEnumerable<Match> matches) {
+		public static IEnumerable<MatchGroup> FromMatches(IEnumerable<Match> matches) {
 			var ma =(from m in matches
 					group m by GetLevelNum(m.MatchInfo) into g
 					orderby g.Key

@@ -7,7 +7,7 @@ namespace Scouty
 	public interface ISQLPlatformHelper
 	{
 		ISQLitePlatform Platform { get; }
-		SQLiteConnectionString GetConnectionString(string dbPath);
+		string GetConnectionString(string dbPath);
 		bool DropDatabase(string dbPath);
 	}
 }

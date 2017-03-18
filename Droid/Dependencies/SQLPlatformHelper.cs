@@ -18,6 +18,7 @@ namespace Scouty.Droid
 					return new SQLitePlatformAndroidN();
 				else
 					return new SQLitePlatformAndroid();
+				
 			}
 		}
 
@@ -28,10 +29,10 @@ namespace Scouty.Droid
 			return true;
 		}
 
-		public SQLiteConnectionString GetConnectionString(string dbPath)
+		public string GetConnectionString(string dbPath)
 		{
 			var path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-			return new SQLiteConnectionString(Path.Combine(path, dbPath), true);
+			return Path.Combine(path, dbPath);
 		}
 	}
 }

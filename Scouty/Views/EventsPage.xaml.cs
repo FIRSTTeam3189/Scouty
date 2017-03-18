@@ -5,6 +5,8 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using BlueAllianceClient;
+using Scouty.Client.Models;
+using Scouty.Client;
 
 namespace Scouty
 {
@@ -21,16 +23,19 @@ namespace Scouty
 
 			this.refreshEventsButton.Clicked += RefreshEventsButton_Clicked;
 			this.deleteEventsButton.Clicked += DeleteEventsButton_Clicked;
+			this.TestServer.Clicked += TestServer_Clicked;
 			Events.ItemSelected += Events_ItemSelected;
+
+			Title = "Events";
 		}
 
 		protected override void OnAppearing()
 		{
 			// Get all of the events from the database if they are there
-			Task.Run(async () =>
+			Task.Run(() =>
 			{
 				var c = DbContext.Instance.Db;
-				var events = await c.Table<Event>().ToListAsync();
+				var events = c.Table<Event>().ToList();
 				var eventGroups = EventGroup.FromEvents(events);
 				Device.BeginInvokeOnMainThread(() => {
 					foreach (var e in eventGroups)
@@ -50,12 +55,12 @@ namespace Scouty
 			var events = await _baContext.GetEvents(2017);
 
 			// Put them in the shizz
-			await DbContext.Instance.InsertOrUpdateEvents(events);
+			DbContext.Instance.InsertOrUpdateEvents(events);
 
 			// Get the shizz back
-			var dbEvents = await DbContext.Instance.Db
+			var dbEvents = DbContext.Instance.Db
 								  .Table<Event>()
-								  .ToListAsync();
+								  .ToList();
 
 			// Get the groups
 			var groups = EventGroup.FromEvents(dbEvents);
@@ -79,12 +84,12 @@ namespace Scouty
 				EventsList.Clear();
 
 				// Delete all of the shit in the events table
-				await DbContext.Instance.Db.DeleteAllAsync<Event>();
-				await DbContext.Instance.Db.DeleteAllAsync<Team>();
-				await DbContext.Instance.Db.DeleteAllAsync<Match>();
-				await DbContext.Instance.Db.DeleteAllAsync<Performance>();
-				await DbContext.Instance.Db.DeleteAllAsync<RobotEvent>();
-				await DbContext.Instance.Db.DeleteAllAsync<TeamEvent>();
+				DbContext.Instance.Db.DeleteAll<Event>();
+				DbContext.Instance.Db.DeleteAll<Team>();
+				DbContext.Instance.Db.DeleteAll<Match>();
+				DbContext.Instance.Db.DeleteAll<Performance>();
+				DbContext.Instance.Db.DeleteAll<RobotEvent>();
+				DbContext.Instance.Db.DeleteAll<TeamEvent>();
 			}
 
 			deleteEventsButton.IsEnabled = true;
@@ -96,6 +101,21 @@ namespace Scouty
 				Navigation.PushAsync(new MatchesPage((Event)e.SelectedItem));
 
 			Events.SelectedItem = null;
+		}
+
+		async void TestServer_Clicked(object sender, EventArgs e)
+		{
+			var evRequest = new RefreshEventRequest { 
+				Year = 2017
+			};
+
+			try
+			{
+				var ev = ServerClient.Instance.PostAsync<RefreshEventRequest, List<Scouty.Event>>("api/events/Refresh", evRequest);
+			}
+			catch (Exception ex) {
+				System.Diagnostics.Debug.WriteLine($"{ex.Message} \n{ex}");
+			}
 		}
 	}
 

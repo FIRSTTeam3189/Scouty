@@ -28,7 +28,7 @@ namespace Scouty.iOS
 			return true;
 		}
 
-		public SQLiteConnectionString GetConnectionString(string dbPath)
+		public string GetConnectionString(string dbPath)
 		{
 			var docFolder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 			var libFolder = Path.Combine(docFolder, "..", "Library", "Databases");
@@ -37,7 +37,7 @@ namespace Scouty.iOS
 				Directory.CreateDirectory(libFolder);
 
 			dbPath = Path.Combine(libFolder, dbPath);
-			return new SQLiteConnectionString(dbPath, true);
+			return dbPath;
 		}
 	}
 }

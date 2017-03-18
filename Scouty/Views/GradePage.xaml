@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Scouty.GradePage">
+	<ContentPage.Content>
+		<ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+			<StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+				<Button Margin="30,25,30,5" Text="Auto" BorderWidth="1" BorderRadius="10" BackgroundColor="Transparent" x:Name="SwitchPeriod" BorderColor="Lime" HorizontalOptions="FillAndExpand"/>
+				<Button Margin="30,0,30,5" Text="Mobility" BorderWidth="1" BorderRadius="10" BackgroundColor="Transparent" x:Name="Mobility" BorderColor="Silver" HorizontalOptions="FillAndExpand"/>
+				
+				<Label Text="High Goal: 0/0" x:Name="HighGoalShots" FontSize="14" HorizontalOptions="Center" HorizontalTextAlignment="Center" Margin="0,5,0,5" />
+				<StackLayout Margin="30,5,30,5" Orientation="Horizontal" HorizontalOptions="FillAndExpand" HeightRequest="44">
+					<Button Margin="0,0,5,0" HorizontalOptions="FillAndExpand" Text="1" x:Name="High1Made" BorderWidth="1" BorderRadius="10" BorderColor="Lime" BackgroundColor="Transparent"/>
+					<Button Margin="0,0,5,0" HorizontalOptions="FillAndExpand" Text="2" x:Name="High2Made" BorderWidth="1" BorderRadius="10" BorderColor="Lime" BackgroundColor="Transparent"/>
+					<Button Margin="0,0,0,0" HorizontalOptions="FillAndExpand" Text="4" x:Name="High4Made" BorderWidth="1" BorderRadius="10" BorderColor="Lime" BackgroundColor="Transparent"/>
+				</StackLayout>
+				<StackLayout Margin="30,5,30,5" Orientation="Horizontal" HorizontalOptions="FillAndExpand" HeightRequest="44">
+					<Button Margin="0,0,5,0" HorizontalOptions="FillAndExpand" Text="1" x:Name="High1Miss" BorderWidth="1" BorderRadius="10" BorderColor="Red" BackgroundColor="Transparent"/>
+					<Button Margin="0,0,5,0" HorizontalOptions="FillAndExpand" Text="2" x:Name="High2Miss" BorderWidth="1" BorderRadius="10" BorderColor="Red" BackgroundColor="Transparent"/>
+					<Button Margin="0,0,0,0" HorizontalOptions="FillAndExpand" Text="4" x:Name="High4Miss" BorderWidth="1" BorderRadius="10" BorderColor="Red" BackgroundColor="Transparent"/>
+				</StackLayout>
+
+				<Label Text="Low Goal: 0/0" x:Name="LowGoalShots" FontSize="14" HorizontalOptions="Center" HorizontalTextAlignment="Center" Margin="0,5,0,5" />
+				<StackLayout Margin="30, 5, 30, 5" Orientation="Horizontal" HorizontalOptions="FillAndExpand" HeightRequest="44">
+					<Button Margin="0,0,5,0" HorizontalOptions="FillAndExpand" Text="1" x:Name="Low1Made" BorderWidth="1" BorderRadius="10" BorderColor="Lime" BackgroundColor="Transparent"/>
+					<Button Margin="0,0,5,0" HorizontalOptions="FillAndExpand" Text="2" x:Name="Low2Made" BorderWidth="1" BorderRadius="10" BorderColor="Lime" BackgroundColor="Transparent"/>
+					<Button Margin="0,0,0,0" HorizontalOptions="FillAndExpand" Text="4" x:Name="Low4Made" BorderWidth="1" BorderRadius="10" BorderColor="Lime" BackgroundColor="Transparent"/>
+				</StackLayout>
+				<StackLayout Margin="30,5,30,5" Orientation="Horizontal" HorizontalOptions="FillAndExpand" HeightRequest="44">
+					<Button Margin="0,0,5,0" HorizontalOptions="FillAndExpand" Text="1" x:Name="Low1Miss" BorderWidth="1" BorderRadius="10" BorderColor="Red" BackgroundColor="Transparent"/>
+					<Button Margin="0,0,5,0" HorizontalOptions="FillAndExpand" Text="2" x:Name="Low2Miss" BorderWidth="1" BorderRadius="10" BorderColor="Red" BackgroundColor="Transparent"/>
+					<Button Margin="0,0,0,0" HorizontalOptions="FillAndExpand" Text="4" x:Name="Low4Miss" BorderWidth="1" BorderRadius="10" BorderColor="Red" BackgroundColor="Transparent"/>
+				</StackLayout>
+
+				<Label Text="Gears: 0/0" x:Name="GearStat" FontSize="14" HorizontalOptions="Center" HorizontalTextAlignment="Center" Margin="0,5,0,5" />
+				<StackLayout Margin="30,5,30,5" Orientation="Horizontal" HorizontalOptions="FillAndExpand" HeightRequest="44">
+					<Button Margin="0,0,5,0" HorizontalOptions="FillAndExpand" Text="Gear Collected" x:Name="GearCollectDrop" BorderWidth="1" BorderRadius="10" BorderColor="Silver" BackgroundColor="Transparent" />
+					<Button Margin="0,0,5,0" HorizontalOptions="FillAndExpand" Text="Gear Pick-up" x:Name="GearPickupHang" BorderWidth="1" BorderRadius="10" BorderColor="Silver" BackgroundColor="Transparent" />
+				</StackLayout>
+
+				<Button Margin="30,10,30,5" HorizontalOptions="FillAndExpand" Text="Climb Attempt" x:Name="HangAttemptSuccess" BorderWidth="1" BorderRadius="10" BorderColor="Silver" BackgroundColor="Transparent" />
+				<Button Margin="30,10,30,5" HorizontalOptions="FillAndExpand" Text="Spilled Balls" x:Name="SpilledBalls" BorderWidth="1" BorderRadius="10" BorderColor="Silver" BackgroundColor="Transparent" />
+
+				<Label Text="Fouls: 0 Tech: 0" x:Name="FoulStat" FontSize="14" HorizontalOptions="Center" HorizontalTextAlignment="Center" Margin="0,5,0,5" />
+				<StackLayout Margin="30, 5, 30, 5" Orientation="Horizontal" HorizontalOptions="FillAndExpand" HeightRequest="44">
+					<Button Margin="0,0,5,0" HorizontalOptions="FillAndExpand" Text="Foul" x:Name="Foul" BorderWidth="1" BorderRadius="10" BorderColor="Yellow" BackgroundColor="Transparent"/>
+					<Button Margin="0,0,5,0" HorizontalOptions="FillAndExpand" Text="Tech. Foul" x:Name="TechFoul" BorderWidth="1" BorderRadius="10" BorderColor="Maroon" BackgroundColor="Transparent"/>
+					<Button Margin="0,0,0,0" HorizontalOptions="FillAndExpand" Text="Robot Fail" x:Name="RobotFail" BorderWidth="1" BorderRadius="10" BorderColor="Red" BackgroundColor="Transparent"/>
+				</StackLayout>
+			</StackLayout>
+		</ScrollView>
+	</ContentPage.Content>
+</ContentPage>

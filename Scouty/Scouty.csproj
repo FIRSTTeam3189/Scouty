@@ -39,6 +39,21 @@
     <EmbeddedResource Include="Views\TeamSelectPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\LoginPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\RegisterPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\GradePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ReviewPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MyGradesPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -66,6 +81,24 @@
     </Compile>
     <Compile Include="Views\TeamSelectPage.xaml.cs">
       <DependentUpon>TeamSelectPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoginPage.xaml.cs">
+      <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RegisterPage.xaml.cs">
+      <DependentUpon>RegisterPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Client\ServerClient.cs" />
+    <Compile Include="Client\Models\RefreshEventRequest.cs" />
+    <Compile Include="Views\GradePage.xaml.cs">
+      <DependentUpon>GradePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReviewPage.xaml.cs">
+      <DependentUpon>ReviewPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Extensions\ModelExtensions.cs" />
+    <Compile Include="Views\MyGradesPage.xaml.cs">
+      <DependentUpon>MyGradesPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -102,6 +135,8 @@
     <Folder Include="Models\" />
     <Folder Include="Dependencies\" />
     <Folder Include="Extensions\" />
+    <Folder Include="Client\" />
+    <Folder Include="Client\Models\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BlueAllianceClient\BlueAllianceClient.csproj">

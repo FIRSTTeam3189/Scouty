@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Scouty.LoginPage">
+	<ContentPage.Content>
+		<StackLayout Orientation="Vertical">
+			<Label Text="Login" FontSize="20" Margin="0,30,0,5" HorizontalTextAlignment="Center"/>
+			<StackLayout Orientation="Horizontal" Margin="0,5,0,0" HorizontalOptions="FillAndExpand">
+				<BoxView MinimumWidthRequest="22" WidthRequest="22" HorizontalOptions="Start"/>
+				<Entry Placeholder="Username" x:Name="Username" MinimumHeightRequest="44" HorizontalOptions="FillAndExpand" />
+				<BoxView MinimumWidthRequest="22" WidthRequest="22" HorizontalOptions="End"/>
+			</StackLayout>
+			<StackLayout Orientation="Horizontal" Margin="0,5,0,5" HorizontalOptions="FillAndExpand">
+				<BoxView MinimumWidthRequest="22" WidthRequest="22" HorizontalOptions="Start"/>
+				<Entry Placeholder="Password" x:Name="Password" IsPassword="true" MinimumHeightRequest="44" HorizontalOptions="FillAndExpand"/>
+				<BoxView MinimumWidthRequest="22" WidthRequest="22" HorizontalOptions="End"/>
+			</StackLayout>			
+			<StackLayout Orientation="Horizontal" Margin="0,5,0,5" HorizontalOptions="CenterAndExpand" MinimumHeightRequest="44" >
+				<Button MinimumWidthRequest="100" Text="Create Account" Margin="5,0,0,0" x:Name="Register" HorizontalOptions="Center" />
+				<Button MinimumWidthRequest="100" Text="Login" Margin="0,0,5,0" x:Name="Login" HorizontalOptions="Center"/>
+			</StackLayout>
+			<BoxView VerticalOptions="EndAndExpand"/>
+		</StackLayout>
+	</ContentPage.Content>
+</ContentPage>
