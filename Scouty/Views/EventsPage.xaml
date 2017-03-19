@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CarouselPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Scouty.EventsPage" xmlns:constants="clr-namespace:Scouty;assembly=Scouty">
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Scouty.EventsPage" xmlns:constants="clr-namespace:Scouty;assembly=Scouty">
 	<ContentPage>
+		<ContentPage.Title>Events</ContentPage.Title>
 		<ListView SeparatorVisibility="None" x:Name="Events" IsGroupingEnabled="true" GroupDisplayBinding="{Binding Week}" GroupShortNameBinding="{Binding WeekShort}">
 			<ListView.ItemTemplate>
 				<DataTemplate>
@@ -10,6 +11,7 @@
 		</ListView>
 	</ContentPage>
 	<ContentPage>
+		<ContentPage.Title>Settings</ContentPage.Title>
 		<StackLayout VerticalOptions="FillAndExpand">
 			<BoxView VerticalOptions="StartAndExpand"/>
 			<Button Margin="30,0,30,5" Text="Refresh Events" x:Name="refreshEventsButton" FontSize="20" BorderColor="Green" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center"/>
@@ -18,4 +20,4 @@
 			<BoxView VerticalOptions="EndAndExpand"/>
 		</StackLayout>
 	</ContentPage>
-</CarouselPage>
+</TabbedPage>

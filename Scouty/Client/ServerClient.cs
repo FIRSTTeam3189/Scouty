@@ -42,7 +42,7 @@ namespace Scouty.Client
 				Password = password
 			};
 
-			var r = GeneratePostRequest("api/Account/Login", login);
+			var r = GeneratePostRequest("api/Account/CustomLogin", login);
 			var response = await _client.SendAsync(r);
 			JToken t;
 			try

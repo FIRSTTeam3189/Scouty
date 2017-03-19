@@ -10,7 +10,7 @@ using Scouty.Client;
 
 namespace Scouty
 {
-	public partial class EventsPage : CarouselPage
+	public partial class EventsPage : TabbedPage
 	{
 		private BlueAllianceContext _baContext = new BlueAllianceContext();
 		public ObservableCollection<EventGroup> EventsList { get; set; }
