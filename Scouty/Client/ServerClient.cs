@@ -14,6 +14,7 @@ namespace Scouty.Client
 		private static readonly ServerClient _instance = new ServerClient();
 		public static ServerClient Instance => _instance;
 
+		private JToken Token;
 		private HttpClient _client = new HttpClient();
 		private ServerClient() { }
 
@@ -44,14 +45,17 @@ namespace Scouty.Client
 
 			var r = GeneratePostRequest("api/Account/CustomLogin", login);
 			var response = await _client.SendAsync(r);
-			JToken t;
+			JArray t;
 			try
 			{
-				t = await GetJTokenFromResponse(response);
+				var resp = await response.Content.ReadAsStringAsync();
+				System.Diagnostics.Debug.WriteLine($"{resp}");
 			}
 			catch {
 				return false;
 			}
+
+			// Now lets Get the token
 
 			return true;
 		}
@@ -126,6 +130,43 @@ namespace Scouty.Client
 				try
 				{
 					return stream.JTokenFromStream();
+				}
+				catch (Exception e)
+				{
+					throw new HttpRequestException("Failed to parse object", e);
+				}
+			}
+			else
+			{
+				throw new HttpRequestException($"{response.StatusCode} " +
+											   $": {response.ReasonPhrase} " +
+											   $"\n {response.ToString()}");
+			}
+		}
+
+		/// <summary>
+		/// Gets the object from response.
+		/// </summary>
+		/// <returns>The object from response.</returns>
+		/// <param name="response">Response.</param>
+		/// <typeparam name="T">The 1st type parameter.</typeparam>
+		private static async Task<JArray> GetJArrayFromResponse(HttpResponseMessage response)
+		{
+			if (response.IsSuccessStatusCode)
+			{
+				Stream stream;
+				try
+				{
+					stream = await response.Content.ReadAsStreamAsync();
+				}
+				catch (Exception e)
+				{
+					throw new HttpRequestException("Failed to read response stream", e);
+				}
+
+				try
+				{
+					return stream.JArrayFromStream();
 				}
 				catch (Exception e)
 				{
