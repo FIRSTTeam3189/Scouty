@@ -27,6 +27,8 @@ namespace Scouty
 			Db.CreateTable(typeof(Match));
 			Db.CreateTable(typeof(Performance));
 			Db.CreateTable(typeof(RobotEvent));
+			Db.CreateTable(typeof(DataSheet));
+			Db.CreateTable(typeof(Note));
 
 		}
 

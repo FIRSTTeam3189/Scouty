@@ -17,5 +17,9 @@ namespace Scouty
 		public List<Match> Matches { get; set; }
 		[OneToMany(CascadeOperations = CascadeOperation.All)]
 		public List<RobotEvent> RobotEvents { get; set; }
+		[OneToMany(CascadeOperations = CascadeOperation.All)]
+		public List<Note> Notes { get; set; }
+		[OneToOne]
+		public DataSheet DataSheet { get; set; }
 	}
 }

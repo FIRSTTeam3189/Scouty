@@ -13,7 +13,7 @@ namespace Scouty
 		public Match GradedMatch { get; }
 		public ObservableCollection<GroupedRobotEvent> Groups { get; set; }
 		private bool HasAppeared { get; set; }
-		private List<EventCounter>  Counters { get; }
+		private List<EventCounter> Counters { get; }
 		private ActionPeriod CurrentPeriod { get; set; }
 		private bool HasGear { get; set; }
 		private int EventNum { get; set; }
@@ -24,7 +24,7 @@ namespace Scouty
 			Title = match.MatchInfo.ToUpper() + " - " + team.TeamNumber;
 			GradedTeam = team;
 			GradedMatch = match;
-			Groups = new ObservableCollection<GroupedRobotEvent>() { 
+			Groups = new ObservableCollection<GroupedRobotEvent>() {
 				new GroupedRobotEvent(ActionPeriod.Auto),
 				new GroupedRobotEvent(ActionPeriod.Teleop)
 			};
@@ -32,12 +32,20 @@ namespace Scouty
 			EventList.ItemSelected += SelectedEvent;
 			Counters = new List<EventCounter>();
 
-			ToolbarItems.Add(new ToolbarItem("Done", null, async () => {
+			ToolbarItems.Add(new ToolbarItem("Done", null, async () =>
+			{
 				if (Groups.SelectMany(x => x).Count() == 0)
 					Groups.First(x => x.Time == ActionPeriod.Teleop).Add(GenRobotEvent(ActionType.RobotDisabled, ActionPeriod.Teleop));
-				
+
 				if (await DisplayAlert("Are you sure?", "You will not be able to edit this saved data, are you sure that it is correct?", "Yes", "No"))
 				{
+					if (string.IsNullOrWhiteSpace(CommentBox.Text))
+						if (await DisplayAlert("No Comment", "You have not input a comment for this match, would you like to leave one?", "Yes", "No Comment"))
+							return;
+						else
+							CommentBox.Text = "<<<NO COMMENT>>>";
+
+					var comment = CommentBox.Text.Trim();
 					// Lets save to database now
 					await Task.Run(() =>
 					{
@@ -51,6 +59,16 @@ namespace Scouty
 						var db = DbContext.Instance.Db;
 						db.InsertAll(evs);
 
+						// Create note in DB now too
+						var note = new Note
+						{
+							Data = comment,
+							MatchId = GradedMatch.MatchId,
+							TeamNumber = GradedTeam.TeamNumber,
+							URI = ""
+						};
+						db.Insert(note);
+
 						// Pop 2 times
 						Device.BeginInvokeOnMainThread(() =>
 						{
@@ -62,7 +80,8 @@ namespace Scouty
 			}));
 
 			// Add counters
-			Counters.Add(new EventCounter(HighGoalShots, "High Goal: {0}/{1}", x => {
+			Counters.Add(new EventCounter(HighGoalShots, "High Goal: {0}/{1}", x =>
+			{
 				var made = x.Count(y => y.Action == ActionType.MakeHigh);
 				return new Tuple<int, int>(made, made + x.Count(y => y.Action == ActionType.MissHigh));
 			}));
@@ -74,11 +93,12 @@ namespace Scouty
 
 			Counters.Add(new EventCounter(GearStat, "Gears: {0}/{1}", x =>
 			{
-				var attempts= x.Count(y => y.Action == ActionType.GearCollected || y.Action == ActionType.GearPickedUp);
+				var attempts = x.Count(y => y.Action == ActionType.GearCollected || y.Action == ActionType.GearPickedUp);
 				var succ = x.Count(y => y.Action == ActionType.GearHung);
 				return new Tuple<int, int>(succ, attempts);
 			}));
-			Counters.Add(new EventCounter(FoulStat, "Fouls: {0} Tech: {1}", (arg) => {
+			Counters.Add(new EventCounter(FoulStat, "Fouls: {0} Tech: {1}", (arg) =>
+			{
 				var fouls = arg.Count(x => x.Action == ActionType.Foul);
 				var tfouls = arg.Count(x => x.Action == ActionType.TechnicalFoul);
 				return new Tuple<int, int>(fouls, tfouls);
@@ -109,7 +129,8 @@ namespace Scouty
 			RobotFail.Clicked += (sender, e) => InsertOrIgnore(ActionType.RobotDisabled, ActionPeriod.Teleop);
 
 			// Special cases
-			HangAttemptSuccess.Clicked += (sender, e) => {
+			HangAttemptSuccess.Clicked += (sender, e) =>
+			{
 				var climbSuccess = Groups.First(x => x.Time == ActionPeriod.Teleop).FirstOrDefault(x => x.Event.Action == ActionType.ClimbSuccessful);
 				if (climbSuccess != null)
 				{
@@ -120,18 +141,21 @@ namespace Scouty
 				{
 					AddClimbEvent(ActionType.ClimbSuccessful);
 				}
-				else {
+				else
+				{
 					AddClimbEvent(ActionType.ClimbAttempted);
 				}
 
 			};
-			GearPickupHang.Clicked += (sender, e) => {
+			GearPickupHang.Clicked += (sender, e) =>
+			{
 				if (HasGear)
 					AddGearEvent(ActionType.GearHung, CurrentPeriod);
 				else
 					AddGearEvent(ActionType.GearPickedUp, CurrentPeriod);
 			};
-			GearCollectDrop.Clicked += (sender, e) => {
+			GearCollectDrop.Clicked += (sender, e) =>
+			{
 				if (HasGear)
 					AddGearEvent(ActionType.GearDropped, CurrentPeriod);
 				else
@@ -154,31 +178,36 @@ namespace Scouty
 			};
 		}
 
-		void InsertOrIgnore(ActionType action, ActionPeriod period) {
+		void InsertOrIgnore(ActionType action, ActionPeriod period)
+		{
 			if (Groups.SelectMany(x => x).Select(x => x.Event).Any(x => x.Action == action && x.Period == period))
 				return;
-			
+
 			Groups.First(x => x.Time == period).Add(GenRobotEvent(action, period));
 			Update();
 		}
 
-		void Insert(ActionType action, ActionPeriod period) {
+		void Insert(ActionType action, ActionPeriod period)
+		{
 			Groups.First(x => x.Time == period).Add(GenRobotEvent(action, period));
 			Update();
 		}
 
-		void Insert(ActionType action, ActionPeriod period, int amount) {
+		void Insert(ActionType action, ActionPeriod period, int amount)
+		{
 			for (int i = 0; i < amount; i++)
 				Groups.First(x => x.Time == period).Add(GenRobotEvent(action, period));
 			Update();
 		}
 
-		void Update() {
+		void Update()
+		{
 			foreach (var c in Counters)
 				c.Update(Groups.SelectMany(x => x).Select(x => x.Event));
 		}
 
-		void AddClimbEvent(ActionType action) {
+		void AddClimbEvent(ActionType action)
+		{
 			// Ignore if we have a successful climb
 			if (Groups.SelectMany(x => x).Select(x => x.Event).Any(x => x.Action == ActionType.ClimbSuccessful))
 				return;
@@ -195,7 +224,8 @@ namespace Scouty
 			}
 		}
 
-		void AddGearEvent(ActionType action, ActionPeriod period) {
+		void AddGearEvent(ActionType action, ActionPeriod period)
+		{
 			// Dont care about non gear events
 			if (action != ActionType.GearCollected && action != ActionType.GearDropped && action != ActionType.GearPickedUp && action != ActionType.GearHung)
 				return;
@@ -206,7 +236,8 @@ namespace Scouty
 				GearPickupHang.Text = "Hung Gear";
 				GearCollectDrop.Text = "Dropped Gear";
 			}
-			else {
+			else
+			{
 				GearPickupHang.Text = "Gear Picked-up";
 				GearCollectDrop.Text = "Gear Collected";
 			}
@@ -214,8 +245,10 @@ namespace Scouty
 			HasGear = !HasGear;
 		}
 
-		private RobotEventUI GenRobotEvent(ActionType action, ActionPeriod period) {
-			return new RobotEventUI(new RobotEvent { 
+		private RobotEventUI GenRobotEvent(ActionType action, ActionPeriod period)
+		{
+			return new RobotEventUI(new RobotEvent
+			{
 				Action = action,
 				MatchId = GradedMatch.MatchId,
 				Period = period,
@@ -277,20 +310,23 @@ namespace Scouty
 		}
 	}
 
-	class EventCounter { 
+	class EventCounter
+	{
 		private Label LabelToUpdate { get; }
 		private string Template { get; }
 		private int ValueOne { get; set; }
 		private int ValueTwo { get; set; }
 		private Func<IEnumerable<RobotEvent>, Tuple<int, int>> GetUpdate { get; }
 
-		public EventCounter(Label labelToUpdate, string template, Func<IEnumerable<RobotEvent>, Tuple<int, int>> onUpdate) {
+		public EventCounter(Label labelToUpdate, string template, Func<IEnumerable<RobotEvent>, Tuple<int, int>> onUpdate)
+		{
 			LabelToUpdate = labelToUpdate;
 			Template = template;
 			GetUpdate = onUpdate;
 		}
 
-		public void Update(IEnumerable<RobotEvent> events) {
+		public void Update(IEnumerable<RobotEvent> events)
+		{
 			var vals = GetUpdate(events);
 			ValueOne = vals.Item1;
 			ValueTwo = vals.Item2;
