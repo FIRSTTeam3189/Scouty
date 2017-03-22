@@ -149,6 +149,7 @@
   <ItemGroup>
     <Folder Include="Resources\" />
     <Folder Include="Dependencies\" />
+    <Folder Include="Assets.xcassets\Events.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -163,6 +164,26 @@
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Dependencies\SQLPlatformHelper.cs" />
     <Compile Include="Dependencies\FileHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Events%402x.png" />
+    <BundleResource Include="Resources\Events%403x.png" />
+    <BundleResource Include="Resources\Matches%402x.png" />
+    <BundleResource Include="Resources\Matches%403x.png" />
+    <BundleResource Include="Resources\Comments%402x.png" />
+    <BundleResource Include="Resources\Comments%403x.png" />
+    <BundleResource Include="Resources\Notes%402x.png" />
+    <BundleResource Include="Resources\Notes%403x.png" />
+    <BundleResource Include="Resources\Ratings%402x.png" />
+    <BundleResource Include="Resources\Ratings%403x.png" />
+    <BundleResource Include="Resources\Settings%402x.png" />
+    <BundleResource Include="Resources\Settings%403x.png" />
+    <BundleResource Include="Resources\Stats%402x.png" />
+    <BundleResource Include="Resources\Stats%403x.png" />
+    <BundleResource Include="Resources\Upload%402x.png" />
+    <BundleResource Include="Resources\Upload%403x.png" />
+    <BundleResource Include="Resources\Teams%402x.png" />
+    <BundleResource Include="Resources\Teams%403x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.3.3.193\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.3.3.193\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />

@@ -2,6 +2,7 @@
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Scouty.GradePage">
 	<ContentPage>
 		<ContentPage.Title>Grade</ContentPage.Title>
+		<ContentPage.Icon>Ratings</ContentPage.Icon>
 		<ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
 			<StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
 				<Button Margin="30,25,30,5" Text="Auto" BorderWidth="1" BorderRadius="10" BackgroundColor="Transparent" x:Name="SwitchPeriod" BorderColor="Lime" HorizontalOptions="FillAndExpand"/>
@@ -51,9 +52,10 @@
 	</ContentPage>
 	<ContentPage>
 		<ContentPage.Title>Review</ContentPage.Title>
+		<ContentPage.Icon>Notes</ContentPage.Icon>
 		<StackLayout Orientation="Vertical" Padding="0,20,0,0">
 			<ListView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="EventList" 
-				IsGroupingEnabled="true" GroupShortNameBinding="{Binding ShortName}" GroupDisplayBinding="{Binding LongName}">
+				IsGroupingEnabled="true" GroupShortNameBinding="{Binding ShortName}" GroupDisplayBinding="{Binding LongName}" SeparatorVisibility="None">
 				<ListView.ItemTemplate>
 					<DataTemplate>
 						<TextCell Text="{Binding Type}" />
@@ -64,6 +66,7 @@
 	</ContentPage>
 	<ContentPage>
 		<ContentPage.Title>Comment</ContentPage.Title>
+		<ContentPage.Icon>Comments</ContentPage.Icon>
 		<StackLayout Orientation="Vertical">
 			<Label FontSize="24" Text="Comment" Margin="0, 30, 0, 30" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center"/>
 			<Editor Margin="8, 0, 8, 0" x:Name="CommentBox" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="#FAFAFA"/>

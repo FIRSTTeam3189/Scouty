@@ -2,6 +2,7 @@
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Scouty.MatchesPage">
 	<ContentPage>
 		<ContentPage.Title>Teams</ContentPage.Title>
+		<ContentPage.Icon>Teams</ContentPage.Icon>
 		<ListView SeparatorVisibility="None" x:Name="EventTeams">
 			<ListView.ItemTemplate>
 				<DataTemplate>
@@ -12,6 +13,7 @@
 	</ContentPage>
 	<ContentPage>
 		<ContentPage.Title>Matches</ContentPage.Title>
+		<ContentPage.Icon>Matches</ContentPage.Icon>
 		<ListView SeparatorVisibility="None" x:Name="Matches" IsGroupingEnabled="true" GroupDisplayBinding="{Binding Level}" GroupShortNameBinding="{Binding ShortLevel}">
 			<ListView.ItemTemplate>
 				<DataTemplate>
@@ -22,6 +24,7 @@
 	</ContentPage>
 	<ContentPage>
 		<ContentPage.Title>Stats</ContentPage.Title>
+		<ContentPage.Icon>Stats</ContentPage.Icon>
 		<StackLayout Orientation="Vertical">
 			<BoxView VerticalOptions="StartAndExpand" />
 			<Button Text="Stats Per Match" x:Name="StatMatch" Margin="30,0,30,5" FontSize="20" BorderColor="Green" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center" />
@@ -32,6 +35,7 @@
 	</ContentPage>
 	<ContentPage>
 		<ContentPage.Title>Options</ContentPage.Title>
+		<ContentPage.Icon>Settings</ContentPage.Icon>
 		<StackLayout Orientation="Vertical">
 			<BoxView VerticalOptions="StartAndExpand" />
 			<Button Margin="30,0,30,5" Text="View Graded Matches" x:Name="ViewGradedMatches" FontSize="20" BorderColor="Green" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center" />

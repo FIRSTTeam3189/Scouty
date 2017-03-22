@@ -29,6 +29,7 @@ namespace Scouty
 			var item = e.SelectedItem;
 			if (item != null) {
 				var team = item as Team;
+				Teams.SelectedItem = null;
 
 				Navigation.PushAsync(new GradePage(SelectedMatch, team));
 			}

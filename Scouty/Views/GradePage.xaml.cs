@@ -3,7 +3,6 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
-using Scouty.Views;
 using System.Threading.Tasks;
 
 namespace Scouty
