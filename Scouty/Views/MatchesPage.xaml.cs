@@ -10,9 +10,10 @@ using Scouty.Client;
 
 namespace Scouty
 {
-	public partial class MatchesPage : CarouselPage
+	public partial class MatchesPage : TabbedPage
 	{
 		ObservableCollection<MatchGroup> MatchList { get; set; }
+		ObservableCollection<Team> Teams { get; set; }
 		BlueAllianceContext _blueContext = new BlueAllianceContext();
 		Event MatchEvent { get; }
 		public MatchesPage(Event ev)
@@ -20,8 +21,11 @@ namespace Scouty
 			InitializeComponent();
 			MatchEvent = ev;
 			MatchList = new ObservableCollection<MatchGroup>();
+			Teams = new ObservableCollection<Team>();
 			Matches.ItemsSource = MatchList;
 			Matches.ItemSelected += Matches_ItemSelected;
+			EventTeams.ItemsSource = Teams;
+			EventTeams.ItemSelected += EventTeams_ItemSelected;
 			Title = ev.Name;
 			CurrentPage = Children[1];
 			ViewGradedMatches.Clicked += async (sender, e) => await Navigation.PushAsync(new MyGradesPage(MatchEvent));
@@ -31,6 +35,9 @@ namespace Scouty
 		protected override void OnAppearing()
 		{
 			if (MatchList.Count == 0)
+			{
+				Matches.BeginRefresh();
+				EventTeams.BeginRefresh();
 				Task.Run(async () =>
 				{
 					var ev = MatchEvent;
@@ -49,12 +56,29 @@ namespace Scouty
 					ev.Matches = m ?? new List<Match>();
 
 					var matchGroups = MatchGroup.FromMatches(m);
+
+					// Now get all of the teams
+					var attendingTeams = db.Table<TeamEvent>().Where(x => x.EventId == ev.EventId).Select(x => x.TeamNumber).ToList();
+					var allTeams = db.Table<Team>().ToList();
+
+					ev.Teams = new List<Team>();
+					foreach (var t in allTeams)
+						if (attendingTeams.Contains(t.TeamNumber))
+							ev.Teams.Add(t);
+					
 					Device.BeginInvokeOnMainThread(() =>
 					{
+						MatchList.Clear();
+						Teams.Clear();
 						foreach (var g in matchGroups)
 							MatchList.Add(g);
+						foreach (var team in ev.Teams)
+							Teams.Add(team);
+						Matches.EndRefresh();
+						EventTeams.EndRefresh();
 					});
 				});
+			}
 			base.OnAppearing();
 		}
 
@@ -104,6 +128,44 @@ namespace Scouty
 			SendData.IsEnabled = true;
 
 
+		}
+
+		async void EventTeams_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+		{
+			if (e.SelectedItem != null)
+			{
+				var team = e.SelectedItem as Team;
+
+				EventTeams.SelectedItem = null;
+
+				// See what the user wants to do
+				var action = await DisplayActionSheet("What would you like to do?", "Nothing", null, "Pit Scout", "View Stats");
+				if (action == "Nothing")
+					return;
+				if (action == "Pit Scout")
+				{
+					await Navigation.PushAsync(new PitScoutPage(team));
+					return;
+				}
+					
+				// Disable lists
+				EventTeams.IsEnabled = false;
+				Matches.IsEnabled = false;
+
+				// Grab the stats for the event
+				var stats = await ServerClient.Instance.GetTeamStats(MatchEvent.EventId);
+
+				EventTeams.IsEnabled = true;
+				Matches.IsEnabled = true;
+
+				if (stats == null)
+				{
+					await DisplayAlert("Failure", "Failed to load stats", "OK");
+					return;
+				}
+
+				await Navigation.PushAsync(new TeamStatPage(stats, team.TeamNumber));
+			}
 		}
 	}
 

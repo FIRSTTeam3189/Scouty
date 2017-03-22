@@ -48,10 +48,13 @@
     <EmbeddedResource Include="Views\GradePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\ReviewPage.xaml">
+    <EmbeddedResource Include="Views\MyGradesPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\MyGradesPage.xaml">
+    <EmbeddedResource Include="Views\TeamStatPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\PitScoutPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
@@ -93,14 +96,20 @@
     <Compile Include="Views\GradePage.xaml.cs">
       <DependentUpon>GradePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ReviewPage.xaml.cs">
-      <DependentUpon>ReviewPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Extensions\ModelExtensions.cs" />
     <Compile Include="Views\MyGradesPage.xaml.cs">
       <DependentUpon>MyGradesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Client\Models\Token.cs" />
+    <Compile Include="Models\TeamStat.cs" />
+    <Compile Include="Views\TeamStatPage.xaml.cs">
+      <DependentUpon>TeamStatPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DataSheet.cs" />
+    <Compile Include="Models\Note.cs" />
+    <Compile Include="Views\PitScoutPage.xaml.cs">
+      <DependentUpon>PitScoutPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">

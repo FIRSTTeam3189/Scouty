@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Scouty.Client;
 using Xamarin.Forms;
 
 namespace Scouty
@@ -12,15 +13,15 @@ namespace Scouty
 
 		protected override void OnAppearing()
 		{
-			Task
-				.Run(() => DbContext.Instance.InitalizeDb(DbContext.DefaultDatabase))
-				.ContinueWith(async t => {
-					await t;
-					//Device.BeginInvokeOnMainThread(() => Navigation.PushModalAsync(new GradePage()));
-					//Device.BeginInvokeOnMainThread(() => Navigation.PushModalAsync(new NavigationPage(new EventsPage())));
-					Device.BeginInvokeOnMainThread(() => Navigation.PushModalAsync(new LoginPage()));
-				});
 			base.OnAppearing();
+			DbContext.Instance.InitalizeDb(DbContext.DefaultDatabase);
+			ServerClient.Instance.Initialize();
+			if (ServerClient.Instance.AccessToken != null)
+				Device.BeginInvokeOnMainThread(() => Navigation.PushModalAsync(new NavigationPage(new EventsPage())));
+			else
+				Device.BeginInvokeOnMainThread(() => Navigation.PushModalAsync(new NavigationPage(new EventsPage())));
+				//Device.BeginInvokeOnMainThread(() => Navigation.PushModalAsync(new LoginPage()));
+			
 		}
 	}
 }

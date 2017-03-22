@@ -4,14 +4,15 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using Scouty.Views;
+using System.Threading.Tasks;
 
 namespace Scouty
 {
-	public partial class GradePage : ContentPage
+	public partial class GradePage : TabbedPage
 	{
 		public Team GradedTeam { get; }
 		public Match GradedMatch { get; }
-		public ObservableCollection<RobotEvent> Events { get; }
+		public ObservableCollection<GroupedRobotEvent> Groups { get; set; }
 		private bool HasAppeared { get; set; }
 		private List<EventCounter>  Counters { get; }
 		private ActionPeriod CurrentPeriod { get; set; }
@@ -24,14 +25,41 @@ namespace Scouty
 			Title = match.MatchInfo.ToUpper() + " - " + team.TeamNumber;
 			GradedTeam = team;
 			GradedMatch = match;
-			Events = new ObservableCollection<RobotEvent>();
+			Groups = new ObservableCollection<GroupedRobotEvent>() { 
+				new GroupedRobotEvent(ActionPeriod.Auto),
+				new GroupedRobotEvent(ActionPeriod.Teleop)
+			};
+			EventList.ItemsSource = Groups;
+			EventList.ItemSelected += SelectedEvent;
 			Counters = new List<EventCounter>();
 
 			ToolbarItems.Add(new ToolbarItem("Done", null, async () => {
-				if (Events.Count == 0)
-					Events.Add(GenRobotEvent(ActionType.RobotDisabled, ActionPeriod.Teleop));
+				if (Groups.SelectMany(x => x).Count() == 0)
+					Groups.First(x => x.Time == ActionPeriod.Teleop).Add(GenRobotEvent(ActionType.RobotDisabled, ActionPeriod.Teleop));
 				
-				await Navigation.PushAsync(new ReviewPage(Events));
+				if (await DisplayAlert("Are you sure?", "You will not be able to edit this saved data, are you sure that it is correct?", "Yes", "No"))
+				{
+					// Lets save to database now
+					await Task.Run(() =>
+					{
+						var evs = Groups.SelectMany(x => x).Select(x => new RobotEvent()
+						{
+							Action = x.Event.Action,
+							MatchId = x.Event.MatchId,
+							TeamId = x.Event.TeamId
+						});
+
+						var db = DbContext.Instance.Db;
+						db.InsertAll(evs);
+
+						// Pop 2 times
+						Device.BeginInvokeOnMainThread(() =>
+						{
+							Navigation.PopAsync(false);
+							Navigation.PopAsync(false);
+						});
+					});
+				}
 			}));
 
 			// Add counters
@@ -58,10 +86,9 @@ namespace Scouty
 			}));
 
 			// Check whenever the Events change
-			Events.CollectionChanged += (sender, e) => {
-				foreach (var counter in Counters)
-					counter.Update(Events);
-			};
+
+			foreach (var grp in Groups)
+				grp.CollectionChanged += (sender, e) => Update();
 
 			//adds when clicked ;)
 			High1Made.Clicked += (sender, e) => Insert(ActionType.MakeHigh, CurrentPeriod);
@@ -84,13 +111,13 @@ namespace Scouty
 
 			// Special cases
 			HangAttemptSuccess.Clicked += (sender, e) => {
-				var climbSuccess = Events.FirstOrDefault(x => x.Action == ActionType.ClimbSuccessful);
+				var climbSuccess = Groups.First(x => x.Time == ActionPeriod.Teleop).FirstOrDefault(x => x.Event.Action == ActionType.ClimbSuccessful);
 				if (climbSuccess != null)
 				{
-					Events.Remove(climbSuccess);
+					Groups.First(x => x.Time == ActionPeriod.Teleop).Remove(climbSuccess);
 					HangAttemptSuccess.Text = "Climb Success";
 				}
-				else if (Events.Any(x => x.Action == ActionType.ClimbAttempted))
+				else if (Groups.First(x => x.Time == ActionPeriod.Teleop).Any(x => x.Event.Action == ActionType.ClimbAttempted))
 				{
 					AddClimbEvent(ActionType.ClimbSuccessful);
 				}
@@ -129,34 +156,35 @@ namespace Scouty
 		}
 
 		void InsertOrIgnore(ActionType action, ActionPeriod period) {
-			if (Events.Any(x => x.Action == action && x.Period == period))
+			if (Groups.SelectMany(x => x).Select(x => x.Event).Any(x => x.Action == action && x.Period == period))
 				return;
-			Events.Add(GenRobotEvent(action, period));
+			
+			Groups.First(x => x.Time == period).Add(GenRobotEvent(action, period));
 			Update();
 		}
 
 		void Insert(ActionType action, ActionPeriod period) {
-			Events.Add(GenRobotEvent(action, period));
+			Groups.First(x => x.Time == period).Add(GenRobotEvent(action, period));
 			Update();
 		}
 
 		void Insert(ActionType action, ActionPeriod period, int amount) {
 			for (int i = 0; i < amount; i++)
-				Events.Add(GenRobotEvent(action, period));
+				Groups.First(x => x.Time == period).Add(GenRobotEvent(action, period));
 			Update();
 		}
 
 		void Update() {
 			foreach (var c in Counters)
-				c.Update(Events);
+				c.Update(Groups.SelectMany(x => x).Select(x => x.Event));
 		}
 
 		void AddClimbEvent(ActionType action) {
 			// Ignore if we have a successful climb
-			if (Events.Any(x => x.Action == ActionType.ClimbSuccessful))
+			if (Groups.SelectMany(x => x).Select(x => x.Event).Any(x => x.Action == ActionType.ClimbSuccessful))
 				return;
 
-			if (action == ActionType.ClimbSuccessful && Events.Any(x => x.Action == ActionType.ClimbAttempted))
+			if (action == ActionType.ClimbSuccessful && Groups.SelectMany(x => x).Select(x => x.Event).Any(x => x.Action == ActionType.ClimbAttempted))
 			{
 				Insert(ActionType.ClimbSuccessful, ActionPeriod.Teleop);
 				HangAttemptSuccess.Text = "Revoke Climb";
@@ -187,14 +215,66 @@ namespace Scouty
 			HasGear = !HasGear;
 		}
 
-		private RobotEvent GenRobotEvent(ActionType action, ActionPeriod period) {
-			return new RobotEvent { 
+		private RobotEventUI GenRobotEvent(ActionType action, ActionPeriod period) {
+			return new RobotEventUI(new RobotEvent { 
 				Action = action,
 				MatchId = GradedMatch.MatchId,
 				Period = period,
 				TeamId = GradedTeam.TeamNumber,
 				Time = EventNum++
-			};
+			});
+		}
+
+		public async void SelectedEvent(object sender, SelectedItemChangedEventArgs e)
+		{
+			var selectedEvent = e.SelectedItem as RobotEventUI;
+
+			EventList.SelectedItem = null;
+
+			if (selectedEvent != null)
+			{
+				var eventTimesFull = new List<EventTimeUI>() { new EventTimeUI(ActionPeriod.Auto), new EventTimeUI(ActionPeriod.Teleop) }
+					.Where(x => x.Time != selectedEvent.Event.Period)
+					.ToArray();
+
+				var eventTimes = eventTimesFull.Select(x => x.Name).ToArray();
+
+				// Lets display an action sheet for this
+				var title = $"What would you like to do about {selectedEvent.Type} during {selectedEvent.Event.Period.ToString()}";
+				var selectedAction = await DisplayActionSheet(title, "Nothing", "Destroy", eventTimes);
+
+				// See what the user selected
+				if (selectedAction == "Nothing")
+				{
+					return;
+				}
+				else if (selectedAction == "Destroy")
+				{
+					// Remove the event
+					Groups.First(x => x.Time == selectedEvent.Event.Period).Remove(selectedEvent);
+				}
+				else
+				{
+					var selectedTime = eventTimesFull.FirstOrDefault(x => x.Name == selectedAction);
+					if (selectedTime != null)
+					{
+						// Move the group over to its new time group
+						Groups.First(x => x.Time == selectedEvent.Event.Period).Remove(selectedEvent);
+						selectedEvent.Event.Period = selectedTime.Time;
+						var newGrp = Groups.FirstOrDefault(x => x.Time == selectedTime.Time);
+
+						if (newGrp == null)
+						{
+							newGrp = new GroupedRobotEvent(selectedTime.Time, new List<RobotEvent>() { selectedEvent.Event });
+							Groups.Add(newGrp);
+						}
+						else
+						{
+							newGrp.Add(selectedEvent);
+						}
+					}
+				}
+			}
 		}
 	}
 
@@ -216,6 +296,65 @@ namespace Scouty
 			ValueOne = vals.Item1;
 			ValueTwo = vals.Item2;
 			LabelToUpdate.Text = string.Format(Template, ValueOne, ValueTwo);
+		}
+	}
+
+	public class EventTimeUI
+	{
+		public const string AUTONOMOUS_NAME = "Change To Autonomous";
+		public const string TELEOP_NAME = "Change To Teleop";
+		public ActionPeriod Time { get; set; }
+		public string Name { get; set; }
+
+		public EventTimeUI(ActionPeriod time)
+		{
+			Time = time;
+
+			if (time == ActionPeriod.Auto)
+			{
+				Name = AUTONOMOUS_NAME;
+			}
+			else
+				Name = TELEOP_NAME;
+		}
+	}
+
+	public class GroupedRobotEvent : ObservableCollection<RobotEventUI>
+	{
+		public string ShortName { get; set; }
+		public string LongName { get; set; }
+		public ActionPeriod Time { get; set; }
+
+		public GroupedRobotEvent(ActionPeriod time, IEnumerable<RobotEvent> events = null)
+		{
+			if (events != null)
+			{
+				foreach (var ev in events)
+				{
+					Add(new RobotEventUI(ev));
+					if (time != ev.Period)
+						throw new ArgumentException("Mismatch of event time!");
+				}
+			}
+
+			Time = time;
+
+			ShortName = time.GetEventTimeShortString();
+			LongName = time.GetEventTimeString();
+		}
+	}
+
+	public class RobotEventUI
+	{
+		public RobotEvent Event { get; set; }
+		public string Type { get; set; }
+
+		public RobotEventUI(RobotEvent associatedEvent)
+		{
+			Event = associatedEvent;
+
+			// Get the string assoiciated with the event
+			Type = associatedEvent.GetActionString();
 		}
 	}
 }

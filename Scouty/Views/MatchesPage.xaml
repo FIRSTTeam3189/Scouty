@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CarouselPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Scouty.MatchesPage">
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Scouty.MatchesPage">
 	<ContentPage>
-		<ListView SeparatorVisibility="None" x:Name="MatchesGraded">
+		<ContentPage.Title>Teams</ContentPage.Title>
+		<ListView SeparatorVisibility="None" x:Name="EventTeams">
 			<ListView.ItemTemplate>
 				<DataTemplate>
-					<TextCell Text="{Binding StatName}" Detail="{Binding BestBot}" />
+					<TextCell Text="{Binding TeamNumber}" Detail="{Binding Name}" />
 				</DataTemplate>
 			</ListView.ItemTemplate>
 		</ListView>
 	</ContentPage>
 	<ContentPage>
+		<ContentPage.Title>Matches</ContentPage.Title>
 		<ListView SeparatorVisibility="None" x:Name="Matches" IsGroupingEnabled="true" GroupDisplayBinding="{Binding Level}" GroupShortNameBinding="{Binding ShortLevel}">
 			<ListView.ItemTemplate>
 				<DataTemplate>
@@ -19,12 +21,23 @@
 		</ListView>
 	</ContentPage>
 	<ContentPage>
+		<ContentPage.Title>Stats</ContentPage.Title>
 		<StackLayout Orientation="Vertical">
-			<BoxView VerticalOptions="StartAndExpand"/>
-			<Button Margin="30,0,30,5" Text="View Graded Matches" x:Name="ViewGradedMatches" FontSize="20" BorderColor="Green" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center"/>
-			<Button Margin="30,0,30,5" Text="Refresh Matches" x:Name="RefreshMatches" TextColor="Red" FontSize="20" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center"/>
-			<Button Margin="30,0,30,0" Text="Send Data" x:Name="SendData" FontSize="20" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center"/>
-			<BoxView VerticalOptions="EndAndExpand"/>
+			<BoxView VerticalOptions="StartAndExpand" />
+			<Button Text="Stats Per Match" x:Name="StatMatch" Margin="30,0,30,5" FontSize="20" BorderColor="Green" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center" />
+			<Button Text="Stats Total" x:Name="StatTotal" Margin="30,0,30,5" FontSize="20" BorderColor="Green" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center" />
+			<Button Text="Match Preview" x:Name="MatchPreview" Margin="30,0,30,5" FontSize="20" BorderColor="Green" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center" />
+			<BoxView VerticalOptions="EndAndExpand" />
 		</StackLayout>
 	</ContentPage>
-</CarouselPage>
+	<ContentPage>
+		<ContentPage.Title>Options</ContentPage.Title>
+		<StackLayout Orientation="Vertical">
+			<BoxView VerticalOptions="StartAndExpand" />
+			<Button Margin="30,0,30,5" Text="View Graded Matches" x:Name="ViewGradedMatches" FontSize="20" BorderColor="Green" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center" />
+			<Button Margin="30,0,30,5" Text="Refresh Matches" x:Name="RefreshMatches" TextColor="Red" FontSize="20" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center" />
+			<Button Margin="30,0,30,0" Text="Send Data" x:Name="SendData" FontSize="20" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center" />
+			<BoxView VerticalOptions="EndAndExpand" />
+		</StackLayout>
+	</ContentPage>
+</TabbedPage>

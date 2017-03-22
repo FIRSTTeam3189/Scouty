@@ -12,6 +12,8 @@ namespace Scouty.iOS
 	{
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
+			var fh = new FileHelper();
+			System.Diagnostics.Debug.WriteLine(fh.GetLocalFilePath("test.jwt"));
 			global::Xamarin.Forms.Forms.Init();
 
 			LoadApplication(new App());
