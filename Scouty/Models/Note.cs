@@ -13,6 +13,8 @@ namespace Scouty
 		public string MatchId { get; set; }
 		[ForeignKey(typeof(Team))]
 		public int TeamNumber { get; set; }
+		[ForeignKey(typeof(DataSheet))]
+		public string DataSheetId { get; set; }
 
 		[MaxLength(512)]
 		public string Data { get; set; }

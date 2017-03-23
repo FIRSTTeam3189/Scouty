@@ -60,9 +60,11 @@ namespace Scouty
 						db.InsertAll(evs);
 
 						// Create note in DB now too
+						var ds = DbContext.Instance.GetOrGenerateDataShit(GradedTeam.TeamNumber);
 						var note = new Note
 						{
 							Data = comment,
+							DataSheetId = ds.Id,
 							MatchId = GradedMatch.MatchId,
 							TeamNumber = GradedTeam.TeamNumber,
 							URI = ""

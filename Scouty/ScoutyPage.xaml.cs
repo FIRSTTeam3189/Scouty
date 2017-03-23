@@ -14,6 +14,7 @@ namespace Scouty
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
+			//DependencyService.Get<ISQLPlatformHelper>().DropDatabase(DbContext.DefaultDatabase);
 			DbContext.Instance.InitalizeDb(DbContext.DefaultDatabase);
 			ServerClient.Instance.Initialize();
 			if (ServerClient.Instance.AccessToken != null)

@@ -44,6 +44,29 @@ namespace Scouty
 			}
 		}
 
+		public DataSheet GetOrGenerateDataShit(int teamNumber) {
+			DataSheet ds;
+			if (!Db.Table<DataSheet>().Any(a => a.TeamNumber == teamNumber))
+			{
+				ds = new DataSheet()
+				{
+					TeamNumber = teamNumber,
+					Year = DateTime.Now.Year,
+					Id = Guid.NewGuid().ToString(),
+					Notes = new List<Note>(),
+					DirtyBoy = false
+				};
+				Db.Insert(ds);
+			}
+			else {
+				ds = Db.GetAllWithChildren<DataSheet>(x => x.TeamNumber == teamNumber).First();
+				if (ds.Notes == null)
+					ds.Notes = new List<Note>();
+			}
+
+			return ds;
+		}
+
 		/// <summary>
 		/// Inserts/Updates the list of events
 		/// </summary>
