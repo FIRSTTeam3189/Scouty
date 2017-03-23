@@ -15,7 +15,7 @@ namespace Scouty
 		[Ignore]
 		public string Name => TimeString != null ? $"{MatchInfo.ToUpper()} - {TimeString}" : $"{MatchInfo.ToUpper()}";
 		[Ignore]
-		public string TeamDetail => Teams.Aggregate("", (x, y) => $"{x} {y.TeamNumber}");
+		public string TeamDetail => Teams?.Aggregate("", (x, y) => $"{x} {y.TeamNumber}") ?? "";
 
 		[ManyToMany(typeof(Performance))]
 		public List<Team> Teams { get; set; }

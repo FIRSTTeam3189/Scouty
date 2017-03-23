@@ -30,6 +30,10 @@ namespace Scouty
 			CurrentPage = Children[1];
 			ViewGradedMatches.Clicked += async (sender, e) => await Navigation.PushAsync(new MyGradesPage(MatchEvent));
 			SendData.Clicked += SendData_Clicked;
+			ToolbarItems.Add(new ToolbarItem("Practice", null, async () =>
+			{
+				await Navigation.PushAsync(new GradePage(MatchEvent));
+			}));
 		}
 
 		protected override void OnAppearing()
@@ -38,16 +42,24 @@ namespace Scouty
 			{
 				Matches.BeginRefresh();
 				EventTeams.BeginRefresh();
-				Task.Run(async () =>
+				Device.BeginInvokeOnMainThread(async () =>
+											   await Task.Run(async () =>
 				{
 					var ev = MatchEvent;
 					var db = DbContext.Instance.Db;
 					if (db.Table<Match>().Where(x => x.EventId == ev.EventId).Count() == 0)
 					{
-						// Pull the latest from BlueAlliance
-						var trueEvent = await _blueContext.GetEvent(2017, ev.EventId.Substring(4));
+						try
+						{
+							// Pull the latest from BlueAlliance
+							var trueEvent = await _blueContext.GetEvent(2017, ev.EventId.Substring(4));
 
-						DbContext.Instance.InsertOrUpdateEvent(trueEvent);
+							DbContext.Instance.InsertOrUpdateEvent(trueEvent);
+						}
+						catch (Exception e)
+						{
+							System.Diagnostics.Debug.WriteLine($"Failed to fetch from BA: {e.ToString()}");
+						}
 					}
 
 
@@ -65,7 +77,7 @@ namespace Scouty
 					foreach (var t in allTeams)
 						if (attendingTeams.Contains(t.TeamNumber))
 							ev.Teams.Add(t);
-					
+
 					Device.BeginInvokeOnMainThread(() =>
 					{
 						MatchList.Clear();
@@ -77,14 +89,15 @@ namespace Scouty
 						Matches.EndRefresh();
 						EventTeams.EndRefresh();
 					});
-				});
+				}));
 			}
 			base.OnAppearing();
 		}
 
 		async void Matches_ItemSelected(object sender, SelectedItemChangedEventArgs e)
 		{
-			if (e.SelectedItem != null) {
+			if (e.SelectedItem != null)
+			{
 				var match = e.SelectedItem as Match;
 
 				Matches.SelectedItem = null;
@@ -114,13 +127,15 @@ namespace Scouty
 					await DisplayAlert("Success", "All events uploaded to the server. Deleting local robot events.", "OK");
 					db.DeleteAll(allEvents);
 				}
-				else {
+				else
+				{
 					await DisplayAlert("Failure", "Events not posted, try again later", "OK");
 				}
 
 				SendData.IsEnabled = true;
 			}
-			catch (Exception ex) {
+			catch (Exception ex)
+			{
 				System.Diagnostics.Debug.WriteLine(ex.ToString());
 			}
 
@@ -147,7 +162,7 @@ namespace Scouty
 					await Navigation.PushAsync(new PitScoutPage(team));
 					return;
 				}
-					
+
 				// Disable lists
 				EventTeams.IsEnabled = false;
 				Matches.IsEnabled = false;
@@ -169,23 +184,28 @@ namespace Scouty
 		}
 	}
 
-	class MatchGroup : ObservableCollection<Match> {
-		private static int GetLevelNum(string info) {
+	class MatchGroup : ObservableCollection<Match>
+	{
+		private static int GetLevelNum(string info)
+		{
 			if (info.StartsWith("qf", StringComparison.CurrentCultureIgnoreCase))
 				return 2;
 			if (info.StartsWith("qm", StringComparison.CurrentCultureIgnoreCase))
 				return 1;
-			if (info.StartsWith("ef", StringComparison.CurrentCultureIgnoreCase)) 
+			if (info.StartsWith("ef", StringComparison.CurrentCultureIgnoreCase))
 				return 3;
 			if (info.StartsWith("sf", StringComparison.CurrentCultureIgnoreCase))
 				return 4;
 			if (info.StartsWith("f", StringComparison.CurrentCultureIgnoreCase))
 				return 5;
+			if (info.StartsWith("p", StringComparison.CurrentCultureIgnoreCase))
+				return 0;
 
-			return 0;
+			return -1;
 		}
 
 		private static readonly Dictionary<int, string> LevelDescription = new Dictionary<int, string> {
+			{ 0, "Practice" },
 			{ 1, "Qualifications" },
 			{ 2, "Quarter Finals" },
 			{ 3, "Eigth Finals" },
@@ -193,16 +213,18 @@ namespace Scouty
 			{ 5, "Finals" }
 		};
 
-		private static int GetMatchNum(string info) {
+		private static int GetMatchNum(string info)
+		{
 			var split = info.Split(null as char[]);
 			return int.Parse(split[split.Length - 1]);
 		}
 
-		public static IEnumerable<MatchGroup> FromMatches(IEnumerable<Match> matches) {
-			var ma =(from m in matches
-					group m by GetLevelNum(m.MatchInfo) into g
-					orderby g.Key
-			        select new MatchGroup(g.Select(x => x).OrderBy(x => GetMatchNum(x.MatchInfo)), g.Key));
+		public static IEnumerable<MatchGroup> FromMatches(IEnumerable<Match> matches)
+		{
+			var ma = (from m in matches
+					  group m by GetLevelNum(m.MatchInfo) into g
+					  orderby g.Key
+					  select new MatchGroup(g.Select(x => x).OrderBy(x => GetMatchNum(x.MatchInfo)), g.Key));
 			var grps = new ObservableCollection<MatchGroup>();
 			foreach (var g in ma)
 				grps.Add(g);
@@ -213,7 +235,8 @@ namespace Scouty
 		public string Level { get; set; }
 		public string ShortLevel { get; set; }
 
-		public MatchGroup(IEnumerable<Match> matches, int compLevel) {
+		public MatchGroup(IEnumerable<Match> matches, int compLevel)
+		{
 			foreach (var m in matches)
 				Add(m);
 

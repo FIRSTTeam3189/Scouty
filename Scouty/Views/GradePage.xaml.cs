@@ -13,10 +13,45 @@ namespace Scouty
 		public Match GradedMatch { get; }
 		public ObservableCollection<GroupedRobotEvent> Groups { get; set; }
 		private bool HasAppeared { get; set; }
-		private List<EventCounter> Counters { get; }
+		private List<EventCounter> Counters { get; set; }
 		private ActionPeriod CurrentPeriod { get; set; }
 		private bool HasGear { get; set; }
 		private int EventNum { get; set; }
+
+		public GradePage(Event ev)
+		{
+			InitializeComponent();
+			Title = "Practice Match";
+
+			ToolbarItems.Add(new ToolbarItem("Next", null, async () =>
+			{
+				if (Groups.SelectMany(x => x).Count() == 0)
+					Groups.First(x => x.Time == ActionPeriod.Teleop).Add(GenRobotEvent(ActionType.RobotDisabled, ActionPeriod.Teleop));
+
+				if (string.IsNullOrWhiteSpace(CommentBox.Text))
+					if (await DisplayAlert("No Comment", "You have not input a comment for this match, would you like to leave one?", "Yes", "No Comment"))
+						return;
+					else
+						CommentBox.Text = "<<<NO COMMENT>>>";
+
+				var comment = CommentBox.Text.Trim();
+
+				var evs = Groups.SelectMany(x => x).Select(x => new RobotEvent()
+				{
+					Action = x.Event.Action,
+					Period = x.Event.Period,
+				});
+
+				var note = new Note
+				{
+					Data = comment,
+					URI = ""
+				};
+
+				await Navigation.PushAsync(new AddPracticeMatch(evs, note, ev));
+			}));
+			Init();
+		}
 
 		public GradePage(Match match, Team team)
 		{
@@ -24,13 +59,6 @@ namespace Scouty
 			Title = match.MatchInfo.ToUpper() + " - " + team.TeamNumber;
 			GradedTeam = team;
 			GradedMatch = match;
-			Groups = new ObservableCollection<GroupedRobotEvent>() {
-				new GroupedRobotEvent(ActionPeriod.Auto),
-				new GroupedRobotEvent(ActionPeriod.Teleop)
-			};
-			EventList.ItemsSource = Groups;
-			EventList.ItemSelected += SelectedEvent;
-			Counters = new List<EventCounter>();
 
 			ToolbarItems.Add(new ToolbarItem("Done", null, async () =>
 			{
@@ -52,6 +80,7 @@ namespace Scouty
 						var evs = Groups.SelectMany(x => x).Select(x => new RobotEvent()
 						{
 							Action = x.Event.Action,
+							Period = x.Event.Period,
 							MatchId = x.Event.MatchId,
 							TeamId = x.Event.TeamId
 						});
@@ -80,6 +109,18 @@ namespace Scouty
 					});
 				}
 			}));
+			Init();
+		}
+
+		void Init()
+		{
+			Groups = new ObservableCollection<GroupedRobotEvent>() {
+				new GroupedRobotEvent(ActionPeriod.Auto),
+				new GroupedRobotEvent(ActionPeriod.Teleop)
+			};
+			EventList.ItemsSource = Groups;
+			EventList.ItemSelected += SelectedEvent;
+			Counters = new List<EventCounter>();
 
 			// Add counters
 			Counters.Add(new EventCounter(HighGoalShots, "High Goal: {0}/{1}", x =>
@@ -252,9 +293,9 @@ namespace Scouty
 			return new RobotEventUI(new RobotEvent
 			{
 				Action = action,
-				MatchId = GradedMatch.MatchId,
+				MatchId = GradedMatch?.MatchId ?? "period_blood",
 				Period = period,
-				TeamId = GradedTeam.TeamNumber,
+				TeamId = GradedTeam?.TeamNumber ?? 0,
 				Time = EventNum++
 			});
 		}

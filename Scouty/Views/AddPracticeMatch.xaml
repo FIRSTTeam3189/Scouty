@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Scouty.AddPracticeMatch">
+	<ContentPage.Content>
+		<StackLayout Orientation="Vertical">
+			<StackLayout Orientation="Horizontal" Margin="0, 10, 0, 10" BackgroundColor="#FCFCFC">
+				<Label Text="Is Red Alliance: " HorizontalOptions="StartAndExpand" Margin="0, 0, 0, 10" FontSize="18" HorizontalTextAlignment="End" />
+				<Switch x:Name="IsRed" Margin="10, 5, 10, 5"/>
+			</StackLayout>
+			<StackLayout Orientation="Horizontal" Margin="0, 10, 0, 10" BackgroundColor="#FCFCFC">
+				<Label Text="Practice Match: 0" x:Name="PracticeMatchLabel" HorizontalOptions="StartAndExpand" Margin="0, 0, 0, 10" FontSize="18" HorizontalTextAlignment="End" />
+				<Button Text="-" WidthRequest="44" HeightRequest="44" Margin="5, 5, 5, 5" BackgroundColor="Transparent" BorderColor="Red" BorderWidth="2" BorderRadius="5" x:Name="MinusButton" />
+				<Button Text="+" WidthRequest="44" HeightRequest="44" Margin="5, 5, 5, 5" BackgroundColor="Transparent" BorderColor="Red" BorderWidth="2" BorderRadius="5" x:Name="PlusButton" />
+			</StackLayout>
+			<ListView x:Name="Teams">
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<TextCell Text="{Binding TeamNumber}" Detail="{Binding Name}" />
+					</DataTemplate>
+				</ListView.ItemTemplate>
+			</ListView>
+		</StackLayout>
+	</ContentPage.Content>
+</ContentPage>

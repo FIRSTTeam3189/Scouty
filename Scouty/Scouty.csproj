@@ -57,6 +57,9 @@
     <EmbeddedResource Include="Views\PitScoutPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\AddPracticeMatch.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -109,6 +112,9 @@
     <Compile Include="Models\Note.cs" />
     <Compile Include="Views\PitScoutPage.xaml.cs">
       <DependentUpon>PitScoutPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddPracticeMatch.xaml.cs">
+      <DependentUpon>AddPracticeMatch.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
