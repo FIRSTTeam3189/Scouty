@@ -29,6 +29,7 @@ namespace Scouty
 			var item = e.SelectedItem;
 			if (item != null) {
 				var team = item as Team;
+				Teams.SelectedItem = null;
 
 				Navigation.PushAsync(new GradePage(SelectedMatch, team));
 			}
@@ -36,17 +37,18 @@ namespace Scouty
 
 		protected override void OnAppearing()
 		{
-			Task.Run(() => {
-				var db = DbContext.Instance.Db;
+			if (Alliances.Count == 0)
+				Task.Run(() => {
+					var db = DbContext.Instance.Db;
 
-				var performances = db.GetAllWithChildren<Performance>(x => x.MatchId == SelectedMatch.MatchId);
-				var alliances = Alliance.FromPerformances(performances);
+					var performances = db.GetAllWithChildren<Performance>(x => x.MatchId == SelectedMatch.MatchId);
+					var alliances = Alliance.FromPerformances(performances);
 
-				Device.BeginInvokeOnMainThread(() => {
-					foreach (var a in alliances)
-						Alliances.Add(a);
+					Device.BeginInvokeOnMainThread(() => {
+						foreach (var a in alliances)
+							Alliances.Add(a);
+					});
 				});
-			});
 			base.OnAppearing();
 		}
 

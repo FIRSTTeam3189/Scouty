@@ -27,6 +27,8 @@ namespace Scouty
 			Db.CreateTable(typeof(Match));
 			Db.CreateTable(typeof(Performance));
 			Db.CreateTable(typeof(RobotEvent));
+			Db.CreateTable(typeof(DataSheet));
+			Db.CreateTable(typeof(Note));
 
 		}
 
@@ -40,6 +42,29 @@ namespace Scouty
 				System.Diagnostics.Debug.WriteLine(e.ToString());
 				return default(T);
 			}
+		}
+
+		public DataSheet GetOrGenerateDataShit(int teamNumber) {
+			DataSheet ds;
+			if (!Db.Table<DataSheet>().Any(a => a.TeamNumber == teamNumber))
+			{
+				ds = new DataSheet()
+				{
+					TeamNumber = teamNumber,
+					Year = DateTime.Now.Year,
+					Id = Guid.NewGuid().ToString(),
+					Notes = new List<Note>(),
+					DirtyBoy = false
+				};
+				Db.Insert(ds);
+			}
+			else {
+				ds = Db.GetAllWithChildren<DataSheet>(x => x.TeamNumber == teamNumber).First();
+				if (ds.Notes == null)
+					ds.Notes = new List<Note>();
+			}
+
+			return ds;
 		}
 
 		/// <summary>

@@ -23,7 +23,7 @@ namespace Scouty
 
 			this.refreshEventsButton.Clicked += RefreshEventsButton_Clicked;
 			this.deleteEventsButton.Clicked += DeleteEventsButton_Clicked;
-			this.TestServer.Clicked += TestServer_Clicked;
+			Logout.Clicked += Logout_Clicked;
 			Events.ItemSelected += Events_ItemSelected;
 
 			Title = "Events";
@@ -103,19 +103,10 @@ namespace Scouty
 			Events.SelectedItem = null;
 		}
 
-		async void TestServer_Clicked(object sender, EventArgs e)
+		async void Logout_Clicked(object sender, EventArgs e)
 		{
-			var evRequest = new RefreshEventRequest { 
-				Year = 2017
-			};
-
-			try
-			{
-				var ev = ServerClient.Instance.PostAsync<RefreshEventRequest, List<Scouty.Event>>("api/events/Refresh", evRequest);
-			}
-			catch (Exception ex) {
-				System.Diagnostics.Debug.WriteLine($"{ex.Message} \n{ex}");
-			}
+			await ServerClient.Instance.Logout();
+			await Navigation.PushModalAsync(new LoginPage());
 		}
 	}
 

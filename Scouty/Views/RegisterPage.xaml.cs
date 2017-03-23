@@ -26,6 +26,20 @@ namespace Scouty
 			else {
 				var result = await ServerClient.Instance.Register(Username.Text.Trim(), Password.Text.Trim(), FullName.Text.Trim());
 				System.Diagnostics.Debug.WriteLine($"Succeeded: {result}");
+
+				if (result) {
+					// Now login
+					if (await ServerClient.Instance.Login(Username.Text.Trim(), Password.Text.Trim()))
+					{
+						await Navigation.PushModalAsync(new NavigationPage(new EventsPage()));
+						return;
+					}
+
+					await DisplayAlert("Login Failed", "Failed to login to Scouty. Please retry at login page", "OK");
+					return;
+				}
+
+				await DisplayAlert("Register Failed", "Failed to register to Scouty.", "OK");
 			}
 		}
 	}

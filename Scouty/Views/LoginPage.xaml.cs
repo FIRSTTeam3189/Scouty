@@ -21,9 +21,13 @@ namespace Scouty
 				await DisplayAlert("Invalid User", "No Username specified", "OK");
 			else
 			{
-				var result = await ServerClient.Instance.Login(Username.Text.Trim(), Password.Text.Trim());
-				System.Diagnostics.Debug.WriteLine($"Succeeded: {result}");
+				if (await ServerClient.Instance.Login(Username.Text.Trim(), Password.Text.Trim()))
+				{
+					await Navigation.PushModalAsync(new NavigationPage(new EventsPage()));
+					return;
+				}
 
+				await DisplayAlert("Login Failed", "Failed to login to Scouty. Please retry at login page", "OK");
 			}
 		}
 	}

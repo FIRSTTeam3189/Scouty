@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Scouty.PitScoutPage">
+	<ContentPage.Content>
+		<TableView Intent="Form">
+			<TableRoot>
+				<TableSection Title="Experience">
+					<ViewCell>
+						<StackLayout Orientation="Horizontal">
+							<Label Text="Driver: " Margin="10, 5, 5, 5" HorizontalTextAlignment="End" VerticalTextAlignment="Center" />
+							<Picker Margin="0, 5, 10, 5" x:Name="DriverEx" HorizontalOptions="FillAndExpand"/>
+						</StackLayout>
+					</ViewCell>
+					<ViewCell>
+						<StackLayout Orientation="Horizontal">
+							<Label Text="Co Driver: " Margin="10, 5, 5, 5" HorizontalTextAlignment="End" VerticalTextAlignment="Center" />
+							<Picker Margin="0, 5, 10, 5" x:Name="CoDriverEx" HorizontalOptions="FillAndExpand"/>
+						</StackLayout>
+					</ViewCell>
+					<ViewCell>
+						<StackLayout Orientation="Horizontal">
+							<Label Text="Coach: " Margin="10, 5, 5, 5" HorizontalTextAlignment="End" VerticalTextAlignment="Center" />
+							<Picker Margin="0, 5, 10, 5" x:Name="CoachEx" HorizontalOptions="FillAndExpand"/>
+						</StackLayout>
+					</ViewCell>
+					<ViewCell>
+						<StackLayout Orientation="Horizontal">
+							<Label Text="Human Player: " Margin="10, 5, 5, 5" HorizontalTextAlignment="End" VerticalTextAlignment="Center" />
+							<Picker Margin="0, 5, 10, 5" x:Name="HumanPlayerEx" HorizontalOptions="FillAndExpand"/>
+						</StackLayout>
+					</ViewCell>
+				</TableSection>
+				<TableSection Title="Robot">
+					<EntryCell Keyboard="Numeric" Label="Robot Speed" Placeholder="(ft/s)" x:Name="RobotSpeed" />
+					<EntryCell Keyboard="Numeric" Label="Climb Speed" Placeholder="(seconds)" x:Name="ClimbSpeed" />
+					<EntryCell Keyboard="Numeric" Label="Expected Gears" Placeholder="(In Teleop)" x:Name="ExpectedGears" />
+					<EntryCell Keyboard="Numeric" Label="Expected High Balls" Placeholder="(In Teleop)" x:Name="ExpectedHighGoals" />
+					<EntryCell Keyboard="Text" Label="Drivetrain" Placeholder="(wcd, swerve, omni...)" x:Name="Drivetrain" />
+					<EntryCell Keyboard="Text" Label="Autonomous Strategy" Placeholder="(hang center, shoot, etc...)" x:Name="Autonomous" />
+				</TableSection>
+			</TableRoot>
+		</TableView>
+	</ContentPage.Content>
+</ContentPage>
