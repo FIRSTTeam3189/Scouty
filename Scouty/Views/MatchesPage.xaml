@@ -27,9 +27,9 @@
 		<ContentPage.Icon>Stats</ContentPage.Icon>
 		<StackLayout Orientation="Vertical">
 			<BoxView VerticalOptions="StartAndExpand" />
-			<Button Text="Stats Per Match" x:Name="StatMatch" Margin="30,0,30,5" FontSize="20" BorderColor="Green" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center" />
-			<Button Text="Stats Total" x:Name="StatTotal" Margin="30,0,30,5" FontSize="20" BorderColor="Green" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center" />
-			<Button Text="Match Preview" x:Name="MatchPreview" Margin="30,0,30,5" FontSize="20" BorderColor="Green" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center" />
+			<Button Text="Stats Per Match" x:Name="StatMatch" Margin="30,0,30,5" FontSize="20" BorderColor="Green" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center" BackgroundColor="Transparent" BorderWidth="2" BorderRadius="5"/>
+			<Button Text="Stats Total" x:Name="StatTotal" Margin="30,0,30,5" FontSize="20" BorderColor="Green" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center" BackgroundColor="Transparent" BorderWidth="2" BorderRadius="5"/>
+			<Button Text="Match Preview" x:Name="MatchPreview" Margin="30,0,30,5" FontSize="20" BorderColor="Green" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center" BackgroundColor="Transparent" BorderWidth="2" BorderRadius="5"/>
 			<BoxView VerticalOptions="EndAndExpand" />
 		</StackLayout>
 	</ContentPage>
@@ -38,9 +38,9 @@
 		<ContentPage.Icon>Settings</ContentPage.Icon>
 		<StackLayout Orientation="Vertical">
 			<BoxView VerticalOptions="StartAndExpand" />
-			<Button Margin="30,0,30,5" Text="View Graded Matches" x:Name="ViewGradedMatches" FontSize="20" BorderColor="Green" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center" />
-			<Button Margin="30,0,30,5" Text="Refresh Matches" x:Name="RefreshMatches" TextColor="Red" FontSize="20" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center" />
-			<Button Margin="30,0,30,0" Text="Send Data" x:Name="SendData" FontSize="20" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center" />
+			<Button Margin="30,0,30,5" Text="View Graded Matches" x:Name="ViewGradedMatches" FontSize="20" BorderColor="Green" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center" BackgroundColor="Transparent" BorderWidth="2" BorderRadius="5" />
+			<Button Margin="30,0,30,5" Text="Send Data" x:Name="SendData" TextColor="Green" FontSize="20" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center" BackgroundColor="Transparent" BorderColor="Green" BorderWidth="2" BorderRadius="5"/>
+			<Label Margin="30,0,30,0" Text="Waiting..." x:Name="SendStatus" FontSize="20" MinimumHeightRequest="44" MinimumWidthRequest="100" VerticalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
 			<BoxView VerticalOptions="EndAndExpand" />
 		</StackLayout>
 	</ContentPage>

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using SQLiteNetExtensions.Extensions;
 using BlueAllianceClient;
 using Scouty.Client;
+using Scouty.Client.Models;
 
 namespace Scouty
 {
@@ -111,6 +112,18 @@ namespace Scouty
 			SendData.IsEnabled = false;
 			try
 			{
+				SendStatus.Text = "Refreshing Events...";
+				// Refresh matches in the Database
+				var m = await ServerClient.Instance.PostAsync<EventMatchesRequest>("api/events/GetMatches", new EventMatchesRequest { 
+					EventId = MatchEvent.EventId,
+					Year = DateTime.Now.Year
+				});
+				if (!m) {
+					SendStatus.Text = "Failed to refresh matches";
+					await DisplayAlert("Failure", "Failed to sync data", "OK");
+					return;
+				}
+
 				// Get all of the Robot events from the server
 				var db = DbContext.Instance.Db;
 				List<string> evMatches;
@@ -133,6 +146,7 @@ namespace Scouty
 				}
 
 				SendData.IsEnabled = true;
+				return;
 			}
 			catch (Exception ex)
 			{

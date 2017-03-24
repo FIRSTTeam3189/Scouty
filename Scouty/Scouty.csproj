@@ -116,6 +116,7 @@
     <Compile Include="Views\AddPracticeMatch.xaml.cs">
       <DependentUpon>AddPracticeMatch.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Client\Models\EventMatchesRequest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">
