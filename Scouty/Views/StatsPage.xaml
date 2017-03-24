@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Scouty.Views.StatsPage">
+	<ContentPage>
+		<ContentPage.Title>Ranking</ContentPage.Title>
+		<ContentPage.Icon>Ratings</ContentPage.Icon>
+	</ContentPage>
+	<ContentPage>
+		<ContentPage.Title>Compare</ContentPage.Title>
+		<ContentPage.Icon>Stats</ContentPage.Icon>
+	</ContentPage>
+	<ContentPage>
+		<ContentPage.Title>Ordering</ContentPage.Title>
+		<ContentPage.Icon>Settings</ContentPage.Icon>
+	</ContentPage>
+</TabbedPage>
