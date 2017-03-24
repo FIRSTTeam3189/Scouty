@@ -17,8 +17,19 @@ namespace Scouty.Client
 		private static readonly string TokenName = "hentai.jwt";
 		public static ServerClient Instance => _instance;
 		private bool _init = false;
+		private Token _accessToken;
 
-		public Token AccessToken { get; private set; }
+		public Token AccessToken { 
+			get {
+				if (_accessToken == null || DateTime.Now > _accessToken.ExpiresOn)
+					return null;
+
+				return _accessToken;
+			} 
+			private set {
+				_accessToken = value;
+			} 
+		}
 		private HttpClient _client = new HttpClient();
 		private Dictionary<string, List<TeamStat>> _cachedStats = new Dictionary<string, List<TeamStat>>();
 

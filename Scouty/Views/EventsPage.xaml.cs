@@ -90,6 +90,8 @@ namespace Scouty
 				DbContext.Instance.Db.DeleteAll<Performance>();
 				DbContext.Instance.Db.DeleteAll<RobotEvent>();
 				DbContext.Instance.Db.DeleteAll<TeamEvent>();
+				DbContext.Instance.Db.DeleteAll<DataSheet>();
+				DbContext.Instance.Db.DeleteAll<Note>();
 			}
 
 			deleteEventsButton.IsEnabled = true;

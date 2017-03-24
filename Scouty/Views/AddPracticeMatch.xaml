@@ -3,11 +3,11 @@
 	<ContentPage.Content>
 		<StackLayout Orientation="Vertical">
 			<StackLayout Orientation="Horizontal" Margin="0, 10, 0, 10" BackgroundColor="#FCFCFC">
-				<Label Text="Is Red Alliance: " HorizontalOptions="StartAndExpand" Margin="0, 0, 0, 10" FontSize="18" HorizontalTextAlignment="End" />
+				<Label Text="Is Red Alliance: " HorizontalOptions="FillAndExpand" Margin="0, 0, 0, 10" FontSize="18" HorizontalTextAlignment="End" VerticalTextAlignment="Center" />
 				<Switch x:Name="IsRed" Margin="10, 5, 10, 5"/>
 			</StackLayout>
 			<StackLayout Orientation="Horizontal" Margin="0, 10, 0, 10" BackgroundColor="#FCFCFC">
-				<Label Text="Practice Match: 0" x:Name="PracticeMatchLabel" HorizontalOptions="StartAndExpand" Margin="0, 0, 0, 10" FontSize="18" HorizontalTextAlignment="End" />
+				<Label Text="Practice Match: 0" x:Name="PracticeMatchLabel" HorizontalOptions="FillAndExpand" Margin="0, 0, 0, 10" FontSize="18" HorizontalTextAlignment="End" VerticalTextAlignment="Center"/>
 				<Button Text="-" WidthRequest="44" HeightRequest="44" Margin="5, 5, 5, 5" BackgroundColor="Transparent" BorderColor="Red" BorderWidth="2" BorderRadius="5" x:Name="MinusButton" />
 				<Button Text="+" WidthRequest="44" HeightRequest="44" Margin="5, 5, 5, 5" BackgroundColor="Transparent" BorderColor="Red" BorderWidth="2" BorderRadius="5" x:Name="PlusButton" />
 			</StackLayout>
