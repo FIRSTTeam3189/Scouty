@@ -17,10 +17,10 @@ namespace Scouty
 			//DependencyService.Get<ISQLPlatformHelper>().DropDatabase(DbContext.DefaultDatabase);
 			DbContext.Instance.InitalizeDb(DbContext.DefaultDatabase);
 			ServerClient.Instance.Initialize();
-			if (ServerClient.Instance.AccessToken != null)
-				Device.BeginInvokeOnMainThread(() => Navigation.PushModalAsync(new NavigationPage(new EventsPage())));
-			else
-				Device.BeginInvokeOnMainThread(() => Navigation.PushModalAsync(new NavigationPage(new EventsPage())));
+			Device.BeginInvokeOnMainThread(async () => await Navigation.PushModalAsync(new NavigationPage(new EventsPage())));
+			//if (ServerClient.Instance.AccessToken != null)
+				//Device.BeginInvokeOnMainThread(() => Navigation.PushModalAsync(new NavigationPage(new EventsPage())));
+			//else
 				//Device.BeginInvokeOnMainThread(() => Navigation.PushModalAsync(new LoginPage()));
 			
 		}
