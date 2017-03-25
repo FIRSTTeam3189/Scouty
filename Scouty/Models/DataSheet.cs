@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using SQLite.Net.Attributes;
 using SQLiteNetExtensions.Attributes;
 
@@ -26,6 +27,7 @@ namespace Scouty
 		[ForeignKey(typeof(Team))]
 		public int TeamNumber { get; set; }
 		[OneToOne]
+		[JsonIgnore]
 		public Team Team { get; set; }
 		public int Year { get; set; }
 		public bool DirtyBoy { get; set; }

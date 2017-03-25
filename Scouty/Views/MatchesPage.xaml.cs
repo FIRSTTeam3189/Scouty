@@ -126,43 +126,42 @@ namespace Scouty
 
 				// Grab all of the practice matches scouted
 				var allMatches = db.Table<Match>().Where(x => x.EventId == MatchEvent.EventId).ToList();
-				var practiceMatches = allMatches.Where(x => x.MatchInfo.StartsWith("p", StringComparison.CurrentCultureIgnoreCase)).ToList();
+				var allPerf = db.Table<Performance>().ToList().Where(x => allMatches.Any(y => y.MatchId == x.MatchId)).ToList();
+				var allEvents = db.Table<RobotEvent>().ToList().Where(x => allMatches.Any(y => y.MatchId == x.MatchId)).ToList();
 
-				var allPerf = db.Table<Performance>().ToList().Where(x => practiceMatches.Any(y => y.MatchId == x.MatchId)).ToList();
-				List<string> evMatches;
-				if (MatchEvent.Matches != null && MatchEvent.Matches.Count != 0)
-					evMatches = MatchEvent.Matches.Select(x => x.MatchId).ToList();
-				else
-					evMatches = db.Table<Match>().Where(x => x.EventId == MatchEvent.EventId).Select(x => x.MatchId).ToList();
-				var allEvents = db.Table<RobotEvent>().ToList().Where(x => evMatches.Contains(x.MatchId));
+				var success = await ServerClient.Instance.PostAsync("api/Match/PutMatches", allMatches);
 
-				var success = await ServerClient.Instance.PostAsync("api/Match/PutMatches", practiceMatches);
-
-				if (!success) {
-					await DisplayAlert("Failed", "Failed to post matches generated from practice matches", "OK");
+				if (!success)
+				{
+					await DisplayAlert("Failed", "Failed to post matches.", "OK");
 					return;
 				}
 
-				success = await ServerClient.Instance.PostAsync("api/Performance/PutPerformances", allPerf);
+				success = await ServerClient.Instance.PostAsync("api/performances/PutPerformances", allPerf);
 
-				if (!success) { 
-					await DisplayAlert("Failed", "Failed to post Performances generated from practice matches", "OK");
-					return;
-				}
-
-				success = await ServerClient.Instance.PostAsync("api/DataSheet/PutDataSheets", sheets);
-
-				if (!success) {
-					await DisplayAlert("Failed", "Failed to post pit scout reports and notes.", "OK");
+				if (!success)
+				{
+					await DisplayAlert("Failed", "Failed to post Performances.", "OK");
 					return;
 				}
 
 				success = await ServerClient.Instance.PostAsync("api/RobotEvent/Post", allEvents);
 
-				if (!success) {
+				if (!success)
+				{
 					await DisplayAlert("Failed", "Failed to post robot events.", "OK");
 					return;
 				}
+
+
+				success = await ServerClient.Instance.PostAsync("api/RobotEvent/Sheets", sheets);
+
+				if (!success)
+				{
+					await DisplayAlert("Failed", "Failed to post pit scout reports and notes.", "OK");
+					return;
+				}
+
 				/*
 				    Post Matches: api/Match/PutMatches
 					Post Performances: api/Performance/PutPerformances 
@@ -172,9 +171,7 @@ namespace Scouty
 
 				await DisplayAlert("Success", "All events uploaded to the server. Deleting local robot events.", "OK");
 				db.DeleteAll(allEvents);
-				db.DeleteAll(allPerf);
 				db.DeleteAll(sheets, true);
-				db.DeleteAll(practiceMatches);
 
 				SendData.IsEnabled = true;
 				return;

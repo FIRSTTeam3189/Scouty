@@ -3,13 +3,31 @@
 	<ContentPage>
 		<ContentPage.Title>Ranking</ContentPage.Title>
 		<ContentPage.Icon>Ratings</ContentPage.Icon>
+		<StackLayout Orientation="Vertical">
+			<Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Margin="0,10, 0, 10" x:Name="StatsLabel" Text="Gears" />
+			<ListView x:Name="Stats" VerticalOptions="FillAndExpand">
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<TextCell Text="{Binding Name}" Detail="{Binding Detail}" />
+					</DataTemplate>
+				</ListView.ItemTemplate>
+			</ListView>
+		</StackLayout>
 	</ContentPage>
 	<ContentPage>
 		<ContentPage.Title>Compare</ContentPage.Title>
 		<ContentPage.Icon>Stats</ContentPage.Icon>
+		<ListView x:Name="Teams">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<TextCell Text="{Binding TeamNumber}" Detail="{Binding Name}" />
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
 	</ContentPage>
 	<ContentPage>
 		<ContentPage.Title>Ordering</ContentPage.Title>
 		<ContentPage.Icon>Settings</ContentPage.Icon>
+
 	</ContentPage>
 </TabbedPage>
