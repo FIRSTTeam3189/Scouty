@@ -60,6 +60,9 @@
     <EmbeddedResource Include="Views\AddPracticeMatch.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\StatsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -117,6 +120,7 @@
       <DependentUpon>AddPracticeMatch.xaml</DependentUpon>
     </Compile>
     <Compile Include="Client\Models\EventMatchesRequest.cs" />
+    <Compile Include="Views\StatsPage.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">

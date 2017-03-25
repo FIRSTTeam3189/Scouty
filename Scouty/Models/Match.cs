@@ -2,6 +2,7 @@
 using SQLite.Net.Attributes;
 using SQLiteNetExtensions.Attributes;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace Scouty
 {
@@ -18,8 +19,10 @@ namespace Scouty
 		public string TeamDetail => Teams?.Aggregate("", (x, y) => $"{x} {y.TeamNumber}") ?? "";
 
 		[ManyToMany(typeof(Performance))]
+		[JsonIgnore]
 		public List<Team> Teams { get; set; }
 		[ManyToOne]
+		[JsonIgnore]
 		public Event Event { get; set; }
 		[ForeignKey(typeof(Event))]
 		public string EventId { get; set; }
