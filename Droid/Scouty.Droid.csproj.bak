@@ -17,8 +17,7 @@
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <AndroidUseLatestPlatformSdk>true</AndroidUseLatestPlatformSdk>
-    <AndroidTlsProvider>
-    </AndroidTlsProvider>
+    <AndroidTlsProvider>btls</AndroidTlsProvider>
     <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -42,7 +41,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AndroidManagedSymbols>true</AndroidManagedSymbols>
-  </PropertyGroup>
+</PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
@@ -137,6 +136,7 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Dependencies\SQLPlatformHelper.cs" />
+    <Compile Include="Dependencies\FileHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -155,6 +155,42 @@
     <AndroidResource Include="Resources\drawable-xhdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\icon.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\Comments.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\Events.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\Matches.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\Notes.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\Ratings.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\Settings.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\Stats.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\Upload.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\Comments.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\Events.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\Matches.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\Notes.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\Ratings.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\Settings.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\Stats.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\Upload.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\Comments.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\Events.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\Matches.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\Notes.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\Ratings.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\Settings.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\Stats.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\Upload.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\Comments.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\Events.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\Matches.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\Notes.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\Ratings.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\Settings.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\Stats.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\Upload.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\Teams.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\Teams.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\Teams.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\Teams.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
