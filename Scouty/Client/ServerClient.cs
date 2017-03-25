@@ -15,6 +15,7 @@ namespace Scouty.Client
 		private static readonly Uri ServerUrl = new Uri("https://robot.servebeer.com/");
 		private static readonly ServerClient _instance = new ServerClient();
 		private static readonly string TokenName = "hentai.jwt";
+		private static readonly string StatsDb = "stats.json";
 		public static ServerClient Instance => _instance;
 		private bool _init = false;
 		private Token _accessToken;
@@ -40,12 +41,13 @@ namespace Scouty.Client
 		/// <summary>
 		/// Initializes the ServerClient Instance, loads in the access token and sees if it is still valid
 		/// </summary>
-		public void Initialize() {
+		public void Initialize()
+		{
 			if (_init)
 				return;
 			_init = true;
 
-
+			// Load in token
 			var fileHelper = DependencyService.Get<IFileHelper>();
 			var tokenPath = fileHelper.GetLocalFilePath(TokenName);
 			if (fileHelper.FileExists(tokenPath))
@@ -60,6 +62,12 @@ namespace Scouty.Client
 					System.Diagnostics.Debug.WriteLine($"Failed to load token {e.ToString()}");
 					AccessToken = null;
 				}
+			}
+
+			var statsPath = fileHelper.GetLocalFilePath(StatsDb);
+			if (fileHelper.FileExists(statsPath)) {
+				var rawStats = fileHelper.ReadFile(statsPath);
+				_cachedStats = JsonConvert.DeserializeObject<Dictionary<string, List<TeamStat>>>(rawStats);
 			}
 		}
 
@@ -152,6 +160,12 @@ namespace Scouty.Client
 			return true;
 		}
 
+		/// <summary>
+		/// Gets the stats for all of the teams at an event
+		/// </summary>
+		/// <returns>The team stats.</returns>
+		/// <param name="eventId">The event to look at.</param>
+		/// <param name="forceRefresh">If set to <c>true</c> force refresh.</param>
 		public async Task<List<TeamStat>> GetTeamStats(string eventId, bool forceRefresh = false) {
 			if (!_cachedStats.ContainsKey(eventId) || forceRefresh)
 			{

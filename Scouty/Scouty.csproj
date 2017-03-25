@@ -121,6 +121,7 @@
     </Compile>
     <Compile Include="Client\Models\EventMatchesRequest.cs" />
     <Compile Include="Views\StatsPage.xaml.cs" />
+    <Compile Include="Stats\StatUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">
@@ -152,6 +153,7 @@
     <Folder Include="Extensions\" />
     <Folder Include="Client\" />
     <Folder Include="Client\Models\" />
+    <Folder Include="Stats\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BlueAllianceClient\BlueAllianceClient.csproj">

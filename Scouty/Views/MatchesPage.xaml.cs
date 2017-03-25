@@ -27,6 +27,20 @@ namespace Scouty
 			Matches.ItemSelected += Matches_ItemSelected;
 			EventTeams.ItemsSource = Teams;
 			EventTeams.ItemSelected += EventTeams_ItemSelected;
+			StatTotal.Clicked += async (sender, e) =>
+			{
+				try
+				{
+					var stats = await ServerClient.Instance.PostAsync<StatRequest, List<TeamStat>>("api/Stat/GetStats", new StatRequest
+					{
+						EventId = MatchEvent.EventId
+					});
+					return;
+				}
+				catch (Exception e2) {
+					System.Diagnostics.Debug.WriteLine($"Something Happened: {e2.ToString()}");
+				}
+			};
 			Title = ev.Name;
 			CurrentPage = Children[1];
 			ViewGradedMatches.Clicked += async (sender, e) => await Navigation.PushAsync(new MyGradesPage(MatchEvent));
