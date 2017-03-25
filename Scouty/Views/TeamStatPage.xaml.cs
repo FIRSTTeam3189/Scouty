@@ -16,7 +16,7 @@ namespace Scouty
 
 			var b = new StringBuilder();
 			foreach (var t in allStats) {
-				b.Append($"{t.StatType.GetEnumString()}\n\tRank: {t.Rank}\n\tZ-Score: {(t.ZScore*100).ToString("N")}%\n\tAvg: {t.Value.ToString("N")}\n\n-----------\n\n");
+				b.Append($"{t.StatType.GetEnumString()}\n\tRank: {t.Rank}\n\tZ-Score: {(t.ZScore).ToString("N4")}\n\tAvg: {t.Value.ToString("N")}\n\n-----------\n\n");
 			}
 
 			Info.Text = b.ToString();

@@ -117,9 +117,9 @@ namespace Scouty
 						teleopRotors++;
 					if (teleopGears >= 7)
 						teleopRotors++;
-					if (teleopRotors >= 3)
+					if (teleopGears >= 3)
 						teleopRotors++;
-					if (teleopRotors >= 1)
+					if (teleopGears >= 1)
 						teleopRotors++;
 					if (autoGearHung)
 						teleopRotors--;
