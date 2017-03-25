@@ -122,6 +122,8 @@
     <Compile Include="Client\Models\EventMatchesRequest.cs" />
     <Compile Include="Views\StatsPage.xaml.cs" />
     <Compile Include="Stats\StatUtilities.cs" />
+    <Compile Include="Stats\TeamStatReport.cs" />
+    <Compile Include="Stats\StatReport.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">

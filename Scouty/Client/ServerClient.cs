@@ -171,7 +171,10 @@ namespace Scouty.Client
 			{
 				try
 				{
-					_cachedStats[eventId] = await PostAsync<StatRequest, List<TeamStat>>("api/Stat/Stats", new StatRequest { EventId = eventId });
+					_cachedStats[eventId] = await PostAsync<StatRequest, List<TeamStat>>("api/Stat/GetStats", new StatRequest { EventId = eventId });
+					DependencyService.Get<IFileHelper>()
+					                 .WriteFile(DependencyService.Get<IFileHelper>().GetLocalFilePath(StatsDb), 
+					                            JsonConvert.SerializeObject(_cachedStats));
 				}
 				catch (Exception e) {
 					System.Diagnostics.Debug.WriteLine("Failed to get stats for " + eventId);

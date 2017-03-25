@@ -8,6 +8,7 @@ using SQLiteNetExtensions.Extensions;
 using BlueAllianceClient;
 using Scouty.Client;
 using Scouty.Client.Models;
+using Scouty.Stats;
 
 namespace Scouty
 {
@@ -17,6 +18,7 @@ namespace Scouty
 		ObservableCollection<Team> Teams { get; set; }
 		BlueAllianceContext _blueContext = new BlueAllianceContext();
 		Event MatchEvent { get; }
+		private List<StatReport> _cachedReports;
 		public MatchesPage(Event ev)
 		{
 			InitializeComponent();
@@ -223,19 +225,29 @@ namespace Scouty
 				EventTeams.IsEnabled = false;
 				Matches.IsEnabled = false;
 
-				// Grab the stats for the event
-				var stats = await ServerClient.Instance.GetTeamStats(MatchEvent.EventId);
+				if (_cachedReports == null) {
+					List<TeamStat> stats;
+					try
+					{
+						// Setup Stats
+						stats = await ServerClient.Instance.GetTeamStats(MatchEvent.EventId, 
+						                                                 await DisplayAlert("Force Refresh?", "Do you want to grab the newest stats?", "Yes", "No"));
+					}
+					catch (Exception ex) {
+						System.Diagnostics.Debug.WriteLine($"Failed to grab stats {ex.ToString()}");
+						await DisplayAlert("Failed", "Failed to grab stats", "OK");
+						return;
+					}
 
-				EventTeams.IsEnabled = true;
-				Matches.IsEnabled = true;
-
-				if (stats == null)
-				{
-					await DisplayAlert("Failure", "Failed to load stats", "OK");
-					return;
+					// Generate a report for every stat now
+					var types = (StatType[])Enum.GetValues(typeof(StatType));
+					_cachedReports = await Task.Run(() => types.Select(x => new StatReport(stats, x)).ToList());
 				}
 
-				await Navigation.PushAsync(new TeamStatPage(stats, team.TeamNumber));
+				var teamReports = _cachedReports.SelectMany(x => x.Rankings).Where(x => x.TeamNumber == team.TeamNumber).ToList();
+				await Navigation.PushAsync(new TeamStatPage(teamReports, team.TeamNumber));
+				EventTeams.IsEnabled = true;
+				Matches.IsEnabled = true;
 			}
 		}
 	}
